@@ -28,14 +28,13 @@ select{width:100%;border-radius:10px;padding:10px;font-weight:800;border:1px sol
 .nav{max-width:900px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:7px}
 .err{white-space:pre-wrap;background:#fff1f2;border:1px solid #fecdd3;color:#9f1239;border-radius:12px;padding:12px}
 .passage{width:100%;max-height:74vh;object-fit:contain;border:1px solid #dfe8dc;border-radius:14px;background:#fff}
-.f1Box{margin-top:12px;background:#111827;border-radius:16px;padding:12px;color:white}
-.f1Lights{display:flex;gap:8px;margin-bottom:8px}
-.f1Light{width:34px;height:34px;border-radius:50%;background:#374151;border:2px solid #4b5563;box-shadow:inset 0 0 8px rgba(0,0,0,.6)}
-.f1Light.red{background:#ef4444;box-shadow:0 0 18px #ef4444}
-.f1Light.green{background:#22c55e;box-shadow:0 0 18px #22c55e}
-.f1Count{font-size:28px;font-weight:1000;letter-spacing:.04em}
-.f1Msg{font-weight:1000;font-size:15px}
-.f1Sub{font-size:12px;color:#cbd5e1;margin-top:3px}
+.timerBox{margin-top:12px;background:#f8fafc;border:1px solid #dbe3df;border-radius:16px;padding:12px}
+.timerTop{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.timerLabel{font-weight:1000;color:#214b2c}
+.timerSelect{width:auto;min-width:110px;border-radius:10px;padding:8px;font-weight:900;border:1px solid #cbd5e1;background:white}
+.gaugeOuter{height:14px;background:#e5e7eb;border-radius:999px;overflow:hidden;margin-top:10px}
+.gaugeInner{height:100%;width:100%;background:#22c55e;transition:width .12s linear, background .12s linear}
+.timerMsg{font-size:12px;color:#64748b;margin-top:7px;font-weight:800}
 @media(max-width:700px){.grid,.stats{grid-template-columns:1fr}.nav{grid-template-columns:1fr 1fr}.q{font-size:20px}}
 </style>
 </head>
@@ -50,19 +49,19 @@ select{width:100%;border-radius:10px;padding:10px;font-weight:800;border:1px sol
   <span class="badge dark" id="qid">Q---</span><span class="badge" id="source">source</span>
   <span class="badge warn" id="difficulty">Lv-</span><span class="badge warn" id="risk">Risk-</span>
   <div class="q" id="question">Loading...</div>
-  <div class="rule">Do not answer first. Find the signal, choose the type, draw the arrow, then answer. Think later.</div>
-<div class="f1Box">
-  <div class="f1Lights">
-    <div class="f1Light" id="f1_1"></div>
-    <div class="f1Light" id="f1_2"></div>
-    <div class="f1Light" id="f1_3"></div>
-    <div class="f1Light" id="f1_4"></div>
-    <div class="f1Light" id="f1_5"></div>
+  <div class="rule">Do not answer first. Find the signal, choose the type, draw the arrow, then answer. Think later.</div><div class="timerBox">
+  <div class="timerTop">
+    <div class="timerLabel">Gauge Timer: choose the signal before time runs out.</div>
+    <label class="small">Seconds
+      <select id="limitSelect" class="timerSelect">
+        <option value="1">1</option><option value="2">2</option><option value="5">5</option><option value="10">10</option>
+        <option value="12">12</option><option value="15" selected>15</option><option value="20">20</option><option value="30">30</option>
+      </select>
+    </label>
   </div>
-  <div class="f1Count" id="f1Count">READY</div>
-  <div class="f1Msg" id="f1Msg">F1 Start: wait for GO, then choose the signal.</div>
-  <div class="f1Sub" id="f1Sub">Target: GREEN within 3 seconds after GO. YELLOW 3-6s. RED 6s+.</div>
-  <button class="secondary" id="f1RestartBtn" style="margin-top:8px">Restart F1 Start</button>
+  <div class="gaugeOuter"><div class="gaugeInner" id="gaugeInner"></div></div>
+  <div class="timerMsg" id="timerMsg">Timer starts when the question appears.</div>
+  <button class="secondary" id="timerRestartBtn" style="margin-top:8px">Restart timer</button>
 </div>
 </div>
 
@@ -100,7 +99,7 @@ select{width:100%;border-radius:10px;padding:10px;font-weight:800;border:1px sol
 <script>
 (function(){
 "use strict";
-var DATA, Q, idx=0, logs={}, started=Date.now(), goStarted=Date.now(), f1Timer=null, goActive=false;
+var DATA, Q, idx=0, logs={}, started=Date.now(), step0Started=Date.now(), timerId=null, timeLimit=15;
 function el(id){return document.getElementById(id);}
 function showError(e){el("errorBox").classList.remove("hidden"); el("errorText").textContent=String(e && e.stack ? e.stack : e);}
 function shuffle(a){return a.slice().sort(function(){return Math.random()-0.5;});}
@@ -110,7 +109,7 @@ function save(){try{localStorage.setItem("tf_idx_v3", String(idx));localStorage.
 function pick(correct,pool,n){return shuffle([correct].concat(shuffle(pool.filter(function(x){return x!==correct;})).slice(0,n-1)));}
 function boot(){
  fetch("questions.json",{cache:"no-store"}).then(function(r){if(!r.ok)throw new Error("questions.json not found");return r.json();}).then(function(data){
-  DATA=data;Q=DATA.questions;idx=Number(localStorage.getItem("tf_idx_v3")||"0");if(idx<0||idx>=Q.length)idx=0;logs=JSON.parse(localStorage.getItem("tf_logs_v3")||"{}");initJump();bind();render();
+  DATA=data;Q=DATA.questions;idx=Number(localStorage.getItem("tf_idx_v3")||"0");if(idx<0||idx>=Q.length)idx=0;logs=JSON.parse(localStorage.getItem("tf_logs_v3")||"{}");initJump();bind();initTimeLimit();render();
  }).catch(showError);
 }
 function bind(){
@@ -120,56 +119,49 @@ function bind(){
  el("retryBtn").addEventListener("click",function(){delete logs[cur().id];save();render();});
  el("exportBtn").addEventListener("click",exportCsv);
  el("passageBtn").addEventListener("click",function(){el("passageBox").classList.toggle("hidden");});
- el("f1RestartBtn").addEventListener("click",startF1Countdown);
+ el("timerRestartBtn").addEventListener("click",startGaugeTimer);
+ el("limitSelect").addEventListener("change",function(){timeLimit=Number(this.value);localStorage.setItem("tf_time_limit_v4",String(timeLimit));startGaugeTimer();});
  el("arrowBtn").addEventListener("click",function(){var l=ensure();l.arrowCompleted=true;l.history.push({stage:"arrow",at:new Date().toISOString()});el("bobCard").classList.remove("hidden");el("answer").textContent=cur().answer;save();dash();});
  el("bobBtn").addEventListener("click",function(){var l=ensure();l.bobCompleted=true;l.myAnswer=el("myAnswer").value;l.history.push({stage:"bob",answer:l.myAnswer,at:new Date().toISOString()});el("patCard").classList.remove("hidden");el("why").textContent=cur().why;save();dash();});
  el("patBtn").addEventListener("click",function(){var l=ensure();l.patCompleted=true;l.myPat=el("myPat").value;l.elapsedSec=Math.round((Date.now()-started)/1000);l.history.push({stage:"pat",pat:l.myPat,elapsedSec:l.elapsedSec,at:new Date().toISOString()});save();dash();});
 }
 function initJump(){var s=el("jump");s.innerHTML="";Q.forEach(function(q,i){var o=document.createElement("option");o.value=i;o.textContent=q.id+" "+q.type+" / "+q.source;s.appendChild(o);});}
 
-function resetF1(){
- ["f1_1","f1_2","f1_3","f1_4","f1_5"].forEach(function(id){el(id).className="f1Light";});
+function initTimeLimit(){
+ var saved=Number(localStorage.getItem("tf_time_limit_v4")||"15");
+ if([1,2,5,10,12,15,20,30].indexOf(saved)>=0) timeLimit=saved;
+ if(el("limitSelect")) el("limitSelect").value=String(timeLimit);
 }
-function startF1Countdown(){
- if(f1Timer) clearInterval(f1Timer);
- resetF1();
- goActive=false;
- el("f1Count").textContent="3";
- el("f1Msg").textContent="F1 Start: wait for GO.";
- var step=0;
- f1Timer=setInterval(function(){
-   step++;
-   resetF1();
-   if(step<=5){
-     for(var i=1;i<=step;i++){el("f1_"+i).classList.add("red");}
-     el("f1Count").textContent = step<=2 ? "3" : (step<=4 ? "2" : "1");
-     el("f1Msg").textContent="Lights on...";
-   }else{
-     clearInterval(f1Timer); f1Timer=null;
-     resetF1();
-     ["f1_1","f1_2","f1_3","f1_4","f1_5"].forEach(function(id){el(id).classList.add("green");});
-     el("f1Count").textContent="GO!";
-     el("f1Msg").textContent="Choose the signal now.";
-     goStarted=Date.now();
-     goActive=true;
+function startGaugeTimer(){
+ if(timerId) clearInterval(timerId);
+ step0Started=Date.now();
+ var bar=el("gaugeInner");
+ bar.style.width="100%";
+ bar.style.background="#22c55e";
+ el("timerMsg").textContent="Timer running: " + timeLimit + " seconds.";
+ timerId=setInterval(function(){
+   var sec=(Date.now()-step0Started)/1000;
+   var remain=Math.max(0, timeLimit-sec);
+   var pct=Math.max(0, remain/timeLimit*100);
+   bar.style.width=pct+"%";
+   if(pct>50){bar.style.background="#22c55e";}
+   else if(pct>20){bar.style.background="#facc15";}
+   else{bar.style.background="#ef4444";}
+   el("timerMsg").textContent="Remaining: " + remain.toFixed(1) + "s / Limit: " + timeLimit + "s";
+   if(remain<=0){
+     clearInterval(timerId); timerId=null;
+     bar.style.width="0%"; bar.style.background="#ef4444";
+     el("timerMsg").textContent="Time out. Still choose the signal.";
    }
- },600);
+ },100);
 }
-function finishF1(){
- var sec = goActive ? (Date.now()-goStarted)/1000 : null;
- if(f1Timer){clearInterval(f1Timer);f1Timer=null;}
- resetF1();
- if(sec===null){
-   el("f1Count").textContent="FALSE";
-   el("f1Msg").textContent="False start. You clicked before GO.";
-   return {seconds:null, zone:"false_start", within3:false};
- }
- var zone = sec<=3 ? "green" : (sec<=6 ? "yellow" : "red");
- ["f1_1","f1_2","f1_3","f1_4","f1_5"].forEach(function(id){el(id).classList.add(zone==="green"?"green":"red");});
- el("f1Count").textContent = zone.toUpperCase();
- el("f1Msg").textContent = "Reaction: " + sec.toFixed(2) + "s";
- goActive=false;
- return {seconds:Number(sec.toFixed(2)), zone:zone, within3:sec<=3};
+function finishGaugeTimer(){
+ var sec=(Date.now()-step0Started)/1000;
+ if(timerId){clearInterval(timerId);timerId=null;}
+ var zone = sec<=timeLimit ? "within_limit" : "timeout";
+ var within3 = sec<=3;
+ el("timerMsg").textContent = "Selected in " + sec.toFixed(2) + "s / Limit: " + timeLimit + "s / " + zone;
+ return {seconds:Number(sec.toFixed(2)), limit:timeLimit, zone:zone, within3:within3};
 }
 
 function render(){
@@ -178,16 +170,16 @@ function render(){
  var img=DATA.source_images && DATA.source_images[q.source]; if(img){el("passageImg").src=img;} else {el("passageImg").removeAttribute("src");}
  ["typeCard","arrowCard","bobCard","patCard"].forEach(function(id){el(id).classList.add("hidden");});
  el("signalFeedback").innerHTML="";el("typeFeedback").innerHTML="";el("typeDesc").textContent="";el("myAnswer").value="";el("myPat").value="";
- renderSignals();renderTypes();dash();startF1Countdown();
+ renderSignals();renderTypes();dash();startGaugeTimer();
 }
 function renderSignals(){var q=cur(),box=el("signalChoices");box.innerHTML="";pick(q.signal,DATA.signals,4).forEach(function(c){var b=document.createElement("button");b.textContent=c;b.onclick=function(){checkSignal(c,b);};box.appendChild(b);});}
 function renderTypes(){var q=cur(),box=el("typeChoices");box.innerHTML="";pick(q.type,DATA.types,6).forEach(function(c){var b=document.createElement("button");b.textContent=c;b.onclick=function(){checkType(c,b);};box.appendChild(b);});}
 function mark(boxId,correct,btn,ok){Array.prototype.forEach.call(el(boxId).children,function(b){b.disabled=true;if(b.textContent===correct)b.classList.add("correct");});if(!ok)btn.classList.add("wrong");}
-function checkSignal(choice,btn){var q=cur(),l=ensure(),ok=choice===q.signal;var f1=finishF1();mark("signalChoices",q.signal,btn,ok);l.step0Correct=ok;l.lastSignal=choice;l.step0Seconds=f1.seconds;l.step0Zone=f1.zone;l.step0Within3=f1.within3;l.attempts=(l.attempts||0)+1;l.history.push({stage:"signal",selected:choice,correct:ok,seconds:f1.seconds,zone:f1.zone,within3:f1.within3,at:new Date().toISOString()});el("signalFeedback").innerHTML=(ok?"<span class='ok'>⭕ Signal OK.</span>":"<span class='ng'>❌ Wrong signal.</span>")+" <span class='small'>F1: "+f1.zone+(f1.seconds!==null?" / "+f1.seconds+"s":"")+"</span>";el("typeCard").classList.remove("hidden");save();dash();}
+function checkSignal(choice,btn){var q=cur(),l=ensure(),ok=choice===q.signal;var t=finishGaugeTimer();mark("signalChoices",q.signal,btn,ok);l.step0Correct=ok;l.lastSignal=choice;l.step0Seconds=t.seconds;l.timeLimit=t.limit;l.step0Zone=t.zone;l.step0Within3=t.within3;l.withinLimit=t.zone==="within_limit";l.attempts=(l.attempts||0)+1;l.history.push({stage:"signal",selected:choice,correct:ok,seconds:t.seconds,limit:t.limit,zone:t.zone,within3:t.within3,at:new Date().toISOString()});el("signalFeedback").innerHTML=(ok?"<span class='ok'>⭕ Signal OK.</span>":"<span class='ng'>❌ Wrong signal.</span>")+" <span class='small'>Time: "+t.seconds+"s / Limit: "+t.limit+"s / "+t.zone+"</span>";el("typeCard").classList.remove("hidden");save();dash();}
 function checkType(choice,btn){var q=cur(),l=ensure(),ok=choice===q.type;mark("typeChoices",q.type,btn,ok);l.typeCorrect=ok;l.selectedType=choice;l.expectedType=q.type;l.history.push({stage:"type",selected:choice,expected:q.type,correct:ok,at:new Date().toISOString()});el("typeFeedback").innerHTML=ok?"<span class='ok'>⭕ Type OK.</span>":"<span class='ng'>❌ Wrong type.</span>";el("typeDesc").textContent=q.type_description;el("arrowTemplate").textContent=q.arrow_template;el("arrowAnswer").textContent=q.arrow_answer;el("arrowCard").classList.remove("hidden");save();dash();}
-function dash(){var vals=Object.keys(logs).map(function(k){return logs[k];});var solved=vals.filter(function(x){return x.bobCompleted||x.patCompleted;}).length;var attempts=vals.filter(function(x){return x.expectedType;});var corr=attempts.filter(function(x){return x.typeCorrect;}).length;el("sSolved").textContent=solved;el("sRate").textContent=attempts.length?Math.round(corr/attempts.length*100)+"%":"0%";el("sBob").textContent=vals.filter(function(x){return x.bobCompleted;}).length;el("sPat").textContent=vals.filter(function(x){return x.patCompleted;}).length;var by={};attempts.forEach(function(x){if(!by[x.expectedType])by[x.expectedType]={n:0,c:0};by[x.expectedType].n++;if(x.typeCorrect)by[x.expectedType].c++;});var weak=Object.keys(by).map(function(k){var v=by[k];return[k,Math.round(v.c/v.n*100),v.n];}).filter(function(x){return x[1]<70;});var timed=vals.filter(function(x){return x.step0Zone;});var green=timed.filter(function(x){return x.step0Zone==="green";}).length;var falseStart=timed.filter(function(x){return x.step0Zone==="false_start";}).length;var speed=timed.length?(" / GREEN rate: "+Math.round(green/timed.length*100)+"% / False starts: "+falseStart):" / GREEN rate: no data";el("weak").textContent=(weak.length?"Weak types: "+weak.map(function(x){return x[0]+" "+x[1]+"%("+x[2]+")";}).join(" / "):"Weak types: not enough logs yet.")+speed;}
+function dash(){var vals=Object.keys(logs).map(function(k){return logs[k];});var solved=vals.filter(function(x){return x.bobCompleted||x.patCompleted;}).length;var attempts=vals.filter(function(x){return x.expectedType;});var corr=attempts.filter(function(x){return x.typeCorrect;}).length;el("sSolved").textContent=solved;el("sRate").textContent=attempts.length?Math.round(corr/attempts.length*100)+"%":"0%";el("sBob").textContent=vals.filter(function(x){return x.bobCompleted;}).length;el("sPat").textContent=vals.filter(function(x){return x.patCompleted;}).length;var by={};attempts.forEach(function(x){if(!by[x.expectedType])by[x.expectedType]={n:0,c:0};by[x.expectedType].n++;if(x.typeCorrect)by[x.expectedType].c++;});var weak=Object.keys(by).map(function(k){var v=by[k];return[k,Math.round(v.c/v.n*100),v.n];}).filter(function(x){return x[1]<70;});var timed=vals.filter(function(x){return typeof x.step0Seconds==="number";});var okLimit=timed.filter(function(x){return x.withinLimit;}).length;var green3=timed.filter(function(x){return x.step0Within3;}).length;var speed=timed.length?(" / Within limit: "+Math.round(okLimit/timed.length*100)+"% / 3-sec: "+Math.round(green3/timed.length*100)+"%"):" / Speed: no data";el("weak").textContent=(weak.length?"Weak types: "+weak.map(function(x){return x[0]+" "+x[1]+"%("+x[2]+")";}).join(" / "):"Weak types: not enough logs yet.")+speed;}
 function csv(v){return '"' + String(v==null?"":v).replace(/"/g,'""') + '"';}
-function exportCsv(){var header=["questionId","source","question_type","step0Correct","step0Seconds","step0Zone","step0Within3","typeCorrect","selectedType","arrowCompleted","bobCompleted","patCompleted","elapsedSec","myAnswer","myPat"];var rows=[header.join(",")];Q.forEach(function(q){var l=logs[q.id]||{};rows.push([q.id,q.source,q.type,l.step0Correct,l.step0Seconds,l.step0Zone,l.step0Within3,l.typeCorrect,l.selectedType,l.arrowCompleted,l.bobCompleted,l.patCompleted,l.elapsedSec,l.myAnswer,l.myPat].map(csv).join(","));});var blob=new Blob([rows.join("\n")],{type:"text/csv;charset=utf-8"});var url=URL.createObjectURL(blob);var a=document.createElement("a");a.href=url;a.download="todai_forest_logs_v3.csv";a.click();URL.revokeObjectURL(url);}
+function exportCsv(){var header=["questionId","source","question_type","step0Correct","step0Seconds","timeLimit","withinLimit","step0Within3","typeCorrect","selectedType","arrowCompleted","bobCompleted","patCompleted","elapsedSec","myAnswer","myPat"];var rows=[header.join(",")];Q.forEach(function(q){var l=logs[q.id]||{};rows.push([q.id,q.source,q.type,l.step0Correct,l.step0Seconds,l.timeLimit,l.withinLimit,l.step0Within3,l.typeCorrect,l.selectedType,l.arrowCompleted,l.bobCompleted,l.patCompleted,l.elapsedSec,l.myAnswer,l.myPat].map(csv).join(","));});var blob=new Blob([rows.join("\n")],{type:"text/csv;charset=utf-8"});var url=URL.createObjectURL(blob);var a=document.createElement("a");a.href=url;a.download="todai_forest_logs_v3.csv";a.click();URL.revokeObjectURL(url);}
 boot();
 })();
 </script>
