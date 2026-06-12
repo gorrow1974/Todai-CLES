@@ -51,7 +51,7 @@ select{width:100%;border-radius:10px;padding:10px;font-weight:800;border:1px sol
   <div class="q" id="question">Loading...</div>
   <div class="rule">Do not answer first. Find the signal, choose the type, draw the arrow, then answer. Think later.</div><div class="timerBox">
   <div class="timerTop">
-    <div class="timerLabel">Gauge Timer: choose the signal before time runs out.</div>
+    <div class="timerLabel">Gauge Timer: time limit for Step0 signal choice.</div>
     <label class="small">Seconds
       <select id="limitSelect" class="timerSelect">
         <option value="1">1</option><option value="2">2</option><option value="5">5</option><option value="10">10</option>
@@ -65,6 +65,8 @@ select{width:100%;border-radius:10px;padding:10px;font-weight:800;border:1px sol
 </div>
 </div>
 
+<div class="card"><div class="step">🔍 Step 0: What is the signal?</div><div class="grid" id="signalChoices"></div><div class="feedback" id="signalFeedback"></div></div>
+
 <div class="card">
   <div class="step">📖 Source Passage</div>
   <button class="secondary" id="passageBtn">Show / Hide passage</button>
@@ -73,7 +75,7 @@ select{width:100%;border-radius:10px;padding:10px;font-weight:800;border:1px sol
 
 <div class="card"><div class="step">Jump</div><select id="jump"></select></div>
 
-<div class="card"><div class="step">🔍 Step 0: What is the signal?</div><div class="grid" id="signalChoices"></div><div class="feedback" id="signalFeedback"></div></div>
+
 
 <div class="card hidden" id="typeCard"><div class="step">🧭 Step 1: What is the question type?</div><div class="grid" id="typeChoices"></div><div class="feedback" id="typeFeedback"></div><div class="small" id="typeDesc"></div></div>
 

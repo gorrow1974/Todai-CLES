@@ -14,3 +14,6 @@ Do not open index.html locally on Android. Use GitHub Pages URL.
 
 
 v3.4: Gauge timer restored. Dropdown time limits: 1,2,5,10,12,15,20,30 seconds. CSV logs step0Seconds, timeLimit, withinLimit, step0Within3.
+
+
+v3.5: Step0 card moved upward directly below the question card.
