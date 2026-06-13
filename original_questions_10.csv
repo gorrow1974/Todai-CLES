@@ -1,0 +1,35 @@
+﻿id,school_type,question,signal,type,arrow,answer,why
+Q001,下線部合図型,下線部 consider の意味を考えるとき、まず見るべき合図はどれ？,underlined word,意味推測型,前→下線部→後,underlined word,下線部の前後から意味を推測する。
+Q002,意味推測型,What does the underlined word “consider” mean in the passage?,underlined word,意味推測型,"前：each environment has advantages
+↓
+consider
+↓
+後：what kind of life suits you best",think about,前後関係から「よく考える」が最も自然。
+Q003,要約型,Which best summarizes the passage?,best summarizes,要約型,"city advantages
+↓
+countryside advantages
+↓
+choose what suits you","Both cities and the countryside have good points, so people should choose what suits them.",両方の利点を述べた後、結論で自分に合う生活を選ぶべきと言っている。
+Q004,比較・対比型,Which pair shows the main contrast in the passage?,on the other hand,比較・対比型,"cities
+⇔
+countryside",cities and the countryside,on the other hand が対比の合図。
+Q005,因果・理由型,Why may some people prefer the countryside?,why,因果・理由型,"fresh air / quiet surroundings
+↓
+prefer countryside","Because it offers fresh air, quiet surroundings, and close relationships with neighbors.",理由を本文中の具体例から拾う型。
+Q006,根拠型,Which sentence supports the idea that cities are convenient?,supports,根拠型,"claim
+↓
+evidence","Cities have convenient transportation, many schools, hospitals, and job opportunities.",support は根拠文を探す合図。
+Q007,主張型,What is the writer’s main point?,main point,主張型,"examples
+↓
+conclusion",People should choose the place that suits their own life.,最後の However 以降が筆者の主張。
+Q008,役割型,What is the role of the second sentence?,role,役割型,"claim
+↓
+examples",It gives examples of the advantages of cities.,文の役割を問う型。答えではなく機能を見る。
+Q009,構造・矢印型,Which arrow best shows the structure of the passage?,structure,構造・矢印型,"cities good points
+↓
+countryside good points
+↓
+personal choice",City advantages → Countryside advantages → Personal choice,本文の流れを矢印で表す問題。
+Q010,除外型,Which is NOT stated in the passage?,not stated,除外型,"本文にある
+⇔
+本文にない",Cities are always better than the countryside.,本文はどちらが絶対に良いとは言っていない。
