@@ -1,19 +1,18 @@
-# TODAI Forest Question Decoder v3
+# 東大の森 v4 日本語ゲームUI
 
-GitHub Pages 用です。
+GitHub Pages のリポジトリ直下へ上書きアップロードしてください。
 
-Upload all files in this folder:
 - index.html
 - questions.json
 - images/
+- sample_questions_10.json
+- sample_questions_10.csv
 
-Then open:
-https://<your-account>.github.io/<repo-name>/
-
-Do not open index.html locally on Android. Use GitHub Pages URL.
-
-
-v3.4: Gauge timer restored. Dropdown time limits: 1,2,5,10,12,15,20,30 seconds. CSV logs step0Seconds, timeLimit, withinLimit, step0Within3.
-
-
-v3.5: Step0 card moved upward directly below the question card.
+内容:
+- 日本語UI
+- 左右分割：問題用紙 / 型探しゲーム
+- ボブ（リス）とパット（フクロウ）
+- Signal → Type → Arrow → Answer
+- ゲージタイマー
+- 積み上げ式ログ
+- 10問サンプル同梱
