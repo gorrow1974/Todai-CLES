@@ -1,0 +1,11 @@
+﻿id,question,correct_arrow,teacher_intent,answer,why,signal,type
+Q001,Which best summarizes the passage?,compare_conclusion,学校の先生は「全体の流れを要約できるか」を見ています。,"Cities and the countryside both have advantages, so people should choose what suits them.",都市と田舎を比べたあと、最後に自分に合う生活を考える結論だから。,best summarizes,要約型
+Q002,Which pair shows the main contrast in the passage?,compare_conclusion,先生は「対比の軸を見抜けるか」を見ています。,Cities and the countryside.,while と On the other hand によって、都市と田舎が対比されているから。,contrast,比較型
+Q003,Why may some people prefer the countryside?,reason_result,先生は「理由を本文から拾えるか」を見ています。,"Because it offers fresh air, quiet surroundings, and close relationships with neighbors.",田舎を好む理由として fresh air などが挙げられているから。,why,因果・理由型
+Q004,What is the role of the second sentence?,examples_claim,先生は「文の役割を見抜けるか」を見ています。,It gives examples of the advantages of cities.,二文目は都市の利点を具体例で説明しているから。,role,役割型
+Q005,What does the underlined word “consider” mean in the passage?,compare_conclusion,先生は「前後関係から意味を推測できるか」を見ています。,think about.,両方の利点を比べたあと、自分に合う生活を考える流れだから。,underlined word,意味推測型
+Q006,Which sentence supports the idea that cities are convenient?,examples_claim,先生は「主張を支える根拠文を探せるか」を見ています。,"Cities have convenient transportation, many schools, hospitals, and job opportunities.",都市が便利である理由を具体例で支えている文だから。,supports,根拠型
+Q007,What is the writer’s main point?,compare_conclusion,先生は「筆者の結論を読めているか」を見ています。,People should choose the place that suits their own life.,両方の利点を示し、最後に自分に合う生活を考えるべきだとまとめているから。,main point,主張型
+Q008,Which is NOT stated in the passage?,compare_conclusion,先生は「本文にある情報とない情報を切り分けられるか」を見ています。,Cities are always better than the countryside.,本文は都市が常に優れているとは言っていないから。,not stated,除外型
+Q009,Which arrow best shows the structure of the passage?,compare_conclusion,先生は「文章の流れそのものを見抜けるか」を見ています。,City advantages → Countryside advantages → Personal choice.,都市の利点、田舎の利点、最後に個人に合う選択という順だから。,structure,構造・矢印型
+Q010,What question did the teacher probably want students to answer through this passage?,compare_conclusion,先生は「出題意図を読めるか」を見ています。,Can you compare two choices and explain which conclusion the writer reaches?,本文全体が、対比から結論へ進む構造だから。,teacher intent,出題意図型

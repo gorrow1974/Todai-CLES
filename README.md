@@ -1,6 +1,3 @@
-東大の森 v5 Original 10
-学校型を元にしたオリジナル10問サンプル。
-GitHub Pagesへそのまま配置してください。
+# 東大の森 v6 Arrow First
 
-
-v5.1: Emoji placeholders replaced with original SVG Bob squirrel and Pat owl characters.
+画面に出すのは Arrow だけ。Signal / Type / Teacher Intent は裏側ログに保存します。

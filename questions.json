@@ -1,166 +1,127 @@
 {
+  "passage": "Some people think that cities are the best places to live, while others prefer the countryside.\nCities have convenient transportation, many schools, hospitals, and job opportunities.\nOn the other hand, the countryside offers fresh air, quiet surroundings, and close relationships with neighbors.\nEach environment has its own advantages.\nHowever, it is important to consider what kind of life suits you best.",
+  "arrow_options": [
+    {
+      "id": "compare_conclusion",
+      "label": "比較 → 結論",
+      "diagram": "A\n⇔\nB\n↓\n結論"
+    },
+    {
+      "id": "reason_result",
+      "label": "理由 → 結果",
+      "diagram": "理由\n↓\n結果"
+    },
+    {
+      "id": "examples_claim",
+      "label": "具体例 → 主張",
+      "diagram": "具体例\n↓\n具体例\n↓\n主張"
+    },
+    {
+      "id": "problem_solution",
+      "label": "問題 → 解決策",
+      "diagram": "問題\n↓\n解決策"
+    }
+  ],
   "questions": [
     {
       "id": "Q001",
-      "school_type": "下線部合図型",
-      "question": "下線部 consider の意味を考えるとき、まず見るべき合図はどれ？",
-      "signal": "underlined word",
-      "type": "意味推測型",
-      "arrow_answer": "前→下線部→後",
-      "answer": "underlined word",
-      "why": "下線部の前後から意味を推測する。",
-      "passage": "Some people think that cities are the best places to live, while others prefer the countryside.\nCities have convenient transportation, many schools, hospitals, and job opportunities.\nOn the other hand, the countryside offers fresh air, quiet surroundings, and close relationships with neighbors.\nEach environment has its own advantages.\nHowever, it is important to consider what kind of life suits you best.",
-      "source": "Original Sample / City vs Countryside",
-      "difficulty": 2,
-      "pat_risk": 3
+      "question": "Which best summarizes the passage?",
+      "correct_arrow": "compare_conclusion",
+      "teacher_intent": "学校の先生は「全体の流れを要約できるか」を見ています。",
+      "answer": "Cities and the countryside both have advantages, so people should choose what suits them.",
+      "why": "都市と田舎を比べたあと、最後に自分に合う生活を考える結論だから。",
+      "signal": "best summarizes",
+      "type": "要約型"
     },
     {
       "id": "Q002",
-      "school_type": "意味推測型",
-      "question": "What does the underlined word “consider” mean in the passage?",
-      "signal": "underlined word",
-      "type": "意味推測型",
-      "arrow_answer": "前：each environment has advantages\n↓\nconsider\n↓\n後：what kind of life suits you best",
-      "answer": "think about",
-      "why": "前後関係から「よく考える」が最も自然。",
-      "passage": "Some people think that cities are the best places to live, while others prefer the countryside.\nCities have convenient transportation, many schools, hospitals, and job opportunities.\nOn the other hand, the countryside offers fresh air, quiet surroundings, and close relationships with neighbors.\nEach environment has its own advantages.\nHowever, it is important to consider what kind of life suits you best.",
-      "source": "Original Sample / City vs Countryside",
-      "difficulty": 2,
-      "pat_risk": 3
+      "question": "Which pair shows the main contrast in the passage?",
+      "correct_arrow": "compare_conclusion",
+      "teacher_intent": "先生は「対比の軸を見抜けるか」を見ています。",
+      "answer": "Cities and the countryside.",
+      "why": "while と On the other hand によって、都市と田舎が対比されているから。",
+      "signal": "contrast",
+      "type": "比較型"
     },
     {
       "id": "Q003",
-      "school_type": "要約型",
-      "question": "Which best summarizes the passage?",
-      "signal": "best summarizes",
-      "type": "要約型",
-      "arrow_answer": "city advantages\n↓\ncountryside advantages\n↓\nchoose what suits you",
-      "answer": "Both cities and the countryside have good points, so people should choose what suits them.",
-      "why": "両方の利点を述べた後、結論で自分に合う生活を選ぶべきと言っている。",
-      "passage": "Some people think that cities are the best places to live, while others prefer the countryside.\nCities have convenient transportation, many schools, hospitals, and job opportunities.\nOn the other hand, the countryside offers fresh air, quiet surroundings, and close relationships with neighbors.\nEach environment has its own advantages.\nHowever, it is important to consider what kind of life suits you best.",
-      "source": "Original Sample / City vs Countryside",
-      "difficulty": 2,
-      "pat_risk": 3
+      "question": "Why may some people prefer the countryside?",
+      "correct_arrow": "reason_result",
+      "teacher_intent": "先生は「理由を本文から拾えるか」を見ています。",
+      "answer": "Because it offers fresh air, quiet surroundings, and close relationships with neighbors.",
+      "why": "田舎を好む理由として fresh air などが挙げられているから。",
+      "signal": "why",
+      "type": "因果・理由型"
     },
     {
       "id": "Q004",
-      "school_type": "比較・対比型",
-      "question": "Which pair shows the main contrast in the passage?",
-      "signal": "on the other hand",
-      "type": "比較・対比型",
-      "arrow_answer": "cities\n⇔\ncountryside",
-      "answer": "cities and the countryside",
-      "why": "on the other hand が対比の合図。",
-      "passage": "Some people think that cities are the best places to live, while others prefer the countryside.\nCities have convenient transportation, many schools, hospitals, and job opportunities.\nOn the other hand, the countryside offers fresh air, quiet surroundings, and close relationships with neighbors.\nEach environment has its own advantages.\nHowever, it is important to consider what kind of life suits you best.",
-      "source": "Original Sample / City vs Countryside",
-      "difficulty": 2,
-      "pat_risk": 3
+      "question": "What is the role of the second sentence?",
+      "correct_arrow": "examples_claim",
+      "teacher_intent": "先生は「文の役割を見抜けるか」を見ています。",
+      "answer": "It gives examples of the advantages of cities.",
+      "why": "二文目は都市の利点を具体例で説明しているから。",
+      "signal": "role",
+      "type": "役割型"
     },
     {
       "id": "Q005",
-      "school_type": "因果・理由型",
-      "question": "Why may some people prefer the countryside?",
-      "signal": "why",
-      "type": "因果・理由型",
-      "arrow_answer": "fresh air / quiet surroundings\n↓\nprefer countryside",
-      "answer": "Because it offers fresh air, quiet surroundings, and close relationships with neighbors.",
-      "why": "理由を本文中の具体例から拾う型。",
-      "passage": "Some people think that cities are the best places to live, while others prefer the countryside.\nCities have convenient transportation, many schools, hospitals, and job opportunities.\nOn the other hand, the countryside offers fresh air, quiet surroundings, and close relationships with neighbors.\nEach environment has its own advantages.\nHowever, it is important to consider what kind of life suits you best.",
-      "source": "Original Sample / City vs Countryside",
-      "difficulty": 2,
-      "pat_risk": 3
+      "question": "What does the underlined word “consider” mean in the passage?",
+      "correct_arrow": "compare_conclusion",
+      "teacher_intent": "先生は「前後関係から意味を推測できるか」を見ています。",
+      "answer": "think about.",
+      "why": "両方の利点を比べたあと、自分に合う生活を考える流れだから。",
+      "signal": "underlined word",
+      "type": "意味推測型"
     },
     {
       "id": "Q006",
-      "school_type": "根拠型",
       "question": "Which sentence supports the idea that cities are convenient?",
-      "signal": "supports",
-      "type": "根拠型",
-      "arrow_answer": "claim\n↓\nevidence",
+      "correct_arrow": "examples_claim",
+      "teacher_intent": "先生は「主張を支える根拠文を探せるか」を見ています。",
       "answer": "Cities have convenient transportation, many schools, hospitals, and job opportunities.",
-      "why": "support は根拠文を探す合図。",
-      "passage": "Some people think that cities are the best places to live, while others prefer the countryside.\nCities have convenient transportation, many schools, hospitals, and job opportunities.\nOn the other hand, the countryside offers fresh air, quiet surroundings, and close relationships with neighbors.\nEach environment has its own advantages.\nHowever, it is important to consider what kind of life suits you best.",
-      "source": "Original Sample / City vs Countryside",
-      "difficulty": 2,
-      "pat_risk": 3
+      "why": "都市が便利である理由を具体例で支えている文だから。",
+      "signal": "supports",
+      "type": "根拠型"
     },
     {
       "id": "Q007",
-      "school_type": "主張型",
       "question": "What is the writer’s main point?",
-      "signal": "main point",
-      "type": "主張型",
-      "arrow_answer": "examples\n↓\nconclusion",
+      "correct_arrow": "compare_conclusion",
+      "teacher_intent": "先生は「筆者の結論を読めているか」を見ています。",
       "answer": "People should choose the place that suits their own life.",
-      "why": "最後の However 以降が筆者の主張。",
-      "passage": "Some people think that cities are the best places to live, while others prefer the countryside.\nCities have convenient transportation, many schools, hospitals, and job opportunities.\nOn the other hand, the countryside offers fresh air, quiet surroundings, and close relationships with neighbors.\nEach environment has its own advantages.\nHowever, it is important to consider what kind of life suits you best.",
-      "source": "Original Sample / City vs Countryside",
-      "difficulty": 2,
-      "pat_risk": 3
+      "why": "両方の利点を示し、最後に自分に合う生活を考えるべきだとまとめているから。",
+      "signal": "main point",
+      "type": "主張型"
     },
     {
       "id": "Q008",
-      "school_type": "役割型",
-      "question": "What is the role of the second sentence?",
-      "signal": "role",
-      "type": "役割型",
-      "arrow_answer": "claim\n↓\nexamples",
-      "answer": "It gives examples of the advantages of cities.",
-      "why": "文の役割を問う型。答えではなく機能を見る。",
-      "passage": "Some people think that cities are the best places to live, while others prefer the countryside.\nCities have convenient transportation, many schools, hospitals, and job opportunities.\nOn the other hand, the countryside offers fresh air, quiet surroundings, and close relationships with neighbors.\nEach environment has its own advantages.\nHowever, it is important to consider what kind of life suits you best.",
-      "source": "Original Sample / City vs Countryside",
-      "difficulty": 2,
-      "pat_risk": 3
+      "question": "Which is NOT stated in the passage?",
+      "correct_arrow": "compare_conclusion",
+      "teacher_intent": "先生は「本文にある情報とない情報を切り分けられるか」を見ています。",
+      "answer": "Cities are always better than the countryside.",
+      "why": "本文は都市が常に優れているとは言っていないから。",
+      "signal": "not stated",
+      "type": "除外型"
     },
     {
       "id": "Q009",
-      "school_type": "構造・矢印型",
       "question": "Which arrow best shows the structure of the passage?",
+      "correct_arrow": "compare_conclusion",
+      "teacher_intent": "先生は「文章の流れそのものを見抜けるか」を見ています。",
+      "answer": "City advantages → Countryside advantages → Personal choice.",
+      "why": "都市の利点、田舎の利点、最後に個人に合う選択という順だから。",
       "signal": "structure",
-      "type": "構造・矢印型",
-      "arrow_answer": "cities good points\n↓\ncountryside good points\n↓\npersonal choice",
-      "answer": "City advantages → Countryside advantages → Personal choice",
-      "why": "本文の流れを矢印で表す問題。",
-      "passage": "Some people think that cities are the best places to live, while others prefer the countryside.\nCities have convenient transportation, many schools, hospitals, and job opportunities.\nOn the other hand, the countryside offers fresh air, quiet surroundings, and close relationships with neighbors.\nEach environment has its own advantages.\nHowever, it is important to consider what kind of life suits you best.",
-      "source": "Original Sample / City vs Countryside",
-      "difficulty": 2,
-      "pat_risk": 3
+      "type": "構造・矢印型"
     },
     {
       "id": "Q010",
-      "school_type": "除外型",
-      "question": "Which is NOT stated in the passage?",
-      "signal": "not stated",
-      "type": "除外型",
-      "arrow_answer": "本文にある\n⇔\n本文にない",
-      "answer": "Cities are always better than the countryside.",
-      "why": "本文はどちらが絶対に良いとは言っていない。",
-      "passage": "Some people think that cities are the best places to live, while others prefer the countryside.\nCities have convenient transportation, many schools, hospitals, and job opportunities.\nOn the other hand, the countryside offers fresh air, quiet surroundings, and close relationships with neighbors.\nEach environment has its own advantages.\nHowever, it is important to consider what kind of life suits you best.",
-      "source": "Original Sample / City vs Countryside",
-      "difficulty": 2,
-      "pat_risk": 3
+      "question": "What question did the teacher probably want students to answer through this passage?",
+      "correct_arrow": "compare_conclusion",
+      "teacher_intent": "先生は「出題意図を読めるか」を見ています。",
+      "answer": "Can you compare two choices and explain which conclusion the writer reaches?",
+      "why": "本文全体が、対比から結論へ進む構造だから。",
+      "signal": "teacher intent",
+      "type": "出題意図型"
     }
-  ],
-  "signals": [
-    "best summarizes",
-    "main point",
-    "not stated",
-    "on the other hand",
-    "role",
-    "structure",
-    "supports",
-    "underlined word",
-    "why"
-  ],
-  "types": [
-    "主張型",
-    "因果・理由型",
-    "役割型",
-    "意味推測型",
-    "根拠型",
-    "構造・矢印型",
-    "比較・対比型",
-    "要約型",
-    "除外型"
   ]
 }
