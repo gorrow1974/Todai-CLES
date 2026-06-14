@@ -1,25 +1,30 @@
 {
+  "title": "東大の森 v7 Bob & Pat Arrow Hunter",
   "passage": "Some people think that cities are the best places to live, while others prefer the countryside.\nCities have convenient transportation, many schools, hospitals, and job opportunities.\nOn the other hand, the countryside offers fresh air, quiet surroundings, and close relationships with neighbors.\nEach environment has its own advantages.\nHowever, it is important to consider what kind of life suits you best.",
   "arrow_options": [
     {
       "id": "compare_conclusion",
-      "label": "比較 → 結論",
-      "diagram": "A\n⇔\nB\n↓\n結論"
+      "label": "比べて → まとめる",
+      "diagram": "A\n⇔\nB\n↓\n結論",
+      "hint": "AとBを比べて、最後のまとめを見る"
     },
     {
       "id": "reason_result",
-      "label": "理由 → 結果",
-      "diagram": "理由\n↓\n結果"
+      "label": "なぜ？ → だから",
+      "diagram": "理由\n↓\n結果",
+      "hint": "理由と結果のつながりを見る"
     },
     {
       "id": "examples_claim",
-      "label": "具体例 → 主張",
-      "diagram": "具体例\n↓\n具体例\n↓\n主張"
+      "label": "例えば → 言いたいこと",
+      "diagram": "具体例\n↓\n具体例\n↓\n主張",
+      "hint": "例が何を支えているかを見る"
     },
     {
       "id": "problem_solution",
-      "label": "問題 → 解決策",
-      "diagram": "問題\n↓\n解決策"
+      "label": "困った → 解決",
+      "diagram": "問題\n↓\n解決策",
+      "hint": "困りごとと対策を見る"
     }
   ],
   "questions": [
@@ -31,7 +36,8 @@
       "answer": "Cities and the countryside both have advantages, so people should choose what suits them.",
       "why": "都市と田舎を比べたあと、最後に自分に合う生活を考える結論だから。",
       "signal": "best summarizes",
-      "type": "要約型"
+      "type": "要約型",
+      "trap_note": "正解以外の選択肢は、学校で起きやすい読み違いパターンです。"
     },
     {
       "id": "Q002",
@@ -41,7 +47,8 @@
       "answer": "Cities and the countryside.",
       "why": "while と On the other hand によって、都市と田舎が対比されているから。",
       "signal": "contrast",
-      "type": "比較型"
+      "type": "比較型",
+      "trap_note": "正解以外の選択肢は、学校で起きやすい読み違いパターンです。"
     },
     {
       "id": "Q003",
@@ -51,7 +58,8 @@
       "answer": "Because it offers fresh air, quiet surroundings, and close relationships with neighbors.",
       "why": "田舎を好む理由として fresh air などが挙げられているから。",
       "signal": "why",
-      "type": "因果・理由型"
+      "type": "因果・理由型",
+      "trap_note": "正解以外の選択肢は、学校で起きやすい読み違いパターンです。"
     },
     {
       "id": "Q004",
@@ -61,7 +69,8 @@
       "answer": "It gives examples of the advantages of cities.",
       "why": "二文目は都市の利点を具体例で説明しているから。",
       "signal": "role",
-      "type": "役割型"
+      "type": "役割型",
+      "trap_note": "正解以外の選択肢は、学校で起きやすい読み違いパターンです。"
     },
     {
       "id": "Q005",
@@ -71,7 +80,8 @@
       "answer": "think about.",
       "why": "両方の利点を比べたあと、自分に合う生活を考える流れだから。",
       "signal": "underlined word",
-      "type": "意味推測型"
+      "type": "意味推測型",
+      "trap_note": "正解以外の選択肢は、学校で起きやすい読み違いパターンです。"
     },
     {
       "id": "Q006",
@@ -81,7 +91,8 @@
       "answer": "Cities have convenient transportation, many schools, hospitals, and job opportunities.",
       "why": "都市が便利である理由を具体例で支えている文だから。",
       "signal": "supports",
-      "type": "根拠型"
+      "type": "根拠型",
+      "trap_note": "正解以外の選択肢は、学校で起きやすい読み違いパターンです。"
     },
     {
       "id": "Q007",
@@ -91,7 +102,8 @@
       "answer": "People should choose the place that suits their own life.",
       "why": "両方の利点を示し、最後に自分に合う生活を考えるべきだとまとめているから。",
       "signal": "main point",
-      "type": "主張型"
+      "type": "主張型",
+      "trap_note": "正解以外の選択肢は、学校で起きやすい読み違いパターンです。"
     },
     {
       "id": "Q008",
@@ -101,7 +113,8 @@
       "answer": "Cities are always better than the countryside.",
       "why": "本文は都市が常に優れているとは言っていないから。",
       "signal": "not stated",
-      "type": "除外型"
+      "type": "除外型",
+      "trap_note": "正解以外の選択肢は、学校で起きやすい読み違いパターンです。"
     },
     {
       "id": "Q009",
@@ -111,7 +124,8 @@
       "answer": "City advantages → Countryside advantages → Personal choice.",
       "why": "都市の利点、田舎の利点、最後に個人に合う選択という順だから。",
       "signal": "structure",
-      "type": "構造・矢印型"
+      "type": "構造・矢印型",
+      "trap_note": "正解以外の選択肢は、学校で起きやすい読み違いパターンです。"
     },
     {
       "id": "Q010",
@@ -121,7 +135,8 @@
       "answer": "Can you compare two choices and explain which conclusion the writer reaches?",
       "why": "本文全体が、対比から結論へ進む構造だから。",
       "signal": "teacher intent",
-      "type": "出題意図型"
+      "type": "出題意図型",
+      "trap_note": "正解以外の選択肢は、学校で起きやすい読み違いパターンです。"
     }
   ]
 }
