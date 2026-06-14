@@ -6,7 +6,7 @@
       "level": "Lv01",
       "name": "入口反応",
       "prompt": "human-compatible",
-      "question": "知ってる？",
+      "question": "",
       "choices": [
         "知ってる",
         "知らない"
@@ -15,7 +15,7 @@
       "arrow": "入口反応",
       "target": "1秒以内",
       "targetSec": 15,
-      "note": "単語・句・問いの合図を見た瞬間に反応する。"
+      "note": "見た瞬間に反応できたかを見る。"
     },
     {
       "level": "Lv02",
