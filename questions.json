@@ -1,142 +1,77 @@
 {
-  "title": "東大の森 v7 Bob & Pat Arrow Hunter",
   "passage": "Some people think that cities are the best places to live, while others prefer the countryside.\nCities have convenient transportation, many schools, hospitals, and job opportunities.\nOn the other hand, the countryside offers fresh air, quiet surroundings, and close relationships with neighbors.\nEach environment has its own advantages.\nHowever, it is important to consider what kind of life suits you best.",
-  "arrow_options": [
+  "arrows": [
     {
-      "id": "compare_conclusion",
-      "label": "比べて → まとめる",
-      "diagram": "A\n⇔\nB\n↓\n結論",
-      "hint": "AとBを比べて、最後のまとめを見る"
+      "id": "compare",
+      "label": "A ⇔ B → 結論",
+      "hint": "AとBを比べて、最後にまとめる"
     },
     {
-      "id": "reason_result",
-      "label": "なぜ？ → だから",
-      "diagram": "理由\n↓\n結果",
-      "hint": "理由と結果のつながりを見る"
+      "id": "reason",
+      "label": "理由 → 結果",
+      "hint": "理由を説明して、結果を伝える"
     },
     {
-      "id": "examples_claim",
-      "label": "例えば → 言いたいこと",
-      "diagram": "具体例\n↓\n具体例\n↓\n主張",
-      "hint": "例が何を支えているかを見る"
+      "id": "example",
+      "label": "具体例 → 主張",
+      "hint": "具体例で、言いたいことを支える"
     },
     {
-      "id": "problem_solution",
-      "label": "困った → 解決",
-      "diagram": "問題\n↓\n解決策",
-      "hint": "困りごとと対策を見る"
+      "id": "solve",
+      "label": "問題 → 解決策",
+      "hint": "問題を示して、解決策を示す"
     }
   ],
   "questions": [
     {
       "id": "Q001",
       "question": "Which best summarizes the passage?",
-      "correct_arrow": "compare_conclusion",
-      "teacher_intent": "学校の先生は「全体の流れを要約できるか」を見ています。",
-      "answer": "Cities and the countryside both have advantages, so people should choose what suits them.",
-      "why": "都市と田舎を比べたあと、最後に自分に合う生活を考える結論だから。",
+      "correct": "compare",
       "signal": "best summarizes",
       "type": "要約型",
-      "trap_note": "正解以外の選択肢は、学校で起きやすい読み違いパターンです。"
+      "intent": "全体の流れを要約できるかを見ています。",
+      "answer": "Cities and the countryside both have advantages, so people should choose what suits them.",
+      "why": "都市と田舎を比べたあと、最後に自分に合う生活を考える結論だから。"
     },
     {
       "id": "Q002",
-      "question": "Which pair shows the main contrast in the passage?",
-      "correct_arrow": "compare_conclusion",
-      "teacher_intent": "先生は「対比の軸を見抜けるか」を見ています。",
-      "answer": "Cities and the countryside.",
-      "why": "while と On the other hand によって、都市と田舎が対比されているから。",
-      "signal": "contrast",
-      "type": "比較型",
-      "trap_note": "正解以外の選択肢は、学校で起きやすい読み違いパターンです。"
+      "question": "What does the underlined word “consider” mean in the passage?",
+      "correct": "compare",
+      "signal": "underlined word",
+      "type": "意味推測型",
+      "intent": "前後関係から意味を推測できるかを見ています。",
+      "answer": "think about.",
+      "why": "両方の利点を比べたあと、自分に合う生活を考える流れだから。"
     },
     {
       "id": "Q003",
       "question": "Why may some people prefer the countryside?",
-      "correct_arrow": "reason_result",
-      "teacher_intent": "先生は「理由を本文から拾えるか」を見ています。",
-      "answer": "Because it offers fresh air, quiet surroundings, and close relationships with neighbors.",
-      "why": "田舎を好む理由として fresh air などが挙げられているから。",
+      "correct": "reason",
       "signal": "why",
-      "type": "因果・理由型",
-      "trap_note": "正解以外の選択肢は、学校で起きやすい読み違いパターンです。"
+      "type": "理由型",
+      "intent": "理由を本文から拾えるかを見ています。",
+      "answer": "Because it offers fresh air, quiet surroundings, and close relationships with neighbors.",
+      "why": "田舎を好む理由が本文に並んでいるから。"
     },
     {
       "id": "Q004",
       "question": "What is the role of the second sentence?",
-      "correct_arrow": "examples_claim",
-      "teacher_intent": "先生は「文の役割を見抜けるか」を見ています。",
-      "answer": "It gives examples of the advantages of cities.",
-      "why": "二文目は都市の利点を具体例で説明しているから。",
+      "correct": "example",
       "signal": "role",
       "type": "役割型",
-      "trap_note": "正解以外の選択肢は、学校で起きやすい読み違いパターンです。"
+      "intent": "文の役割を見抜けるかを見ています。",
+      "answer": "It gives examples of the advantages of cities.",
+      "why": "都市の利点を具体例で説明しているから。"
     },
     {
       "id": "Q005",
-      "question": "What does the underlined word “consider” mean in the passage?",
-      "correct_arrow": "compare_conclusion",
-      "teacher_intent": "先生は「前後関係から意味を推測できるか」を見ています。",
-      "answer": "think about.",
-      "why": "両方の利点を比べたあと、自分に合う生活を考える流れだから。",
-      "signal": "underlined word",
-      "type": "意味推測型",
-      "trap_note": "正解以外の選択肢は、学校で起きやすい読み違いパターンです。"
-    },
-    {
-      "id": "Q006",
-      "question": "Which sentence supports the idea that cities are convenient?",
-      "correct_arrow": "examples_claim",
-      "teacher_intent": "先生は「主張を支える根拠文を探せるか」を見ています。",
-      "answer": "Cities have convenient transportation, many schools, hospitals, and job opportunities.",
-      "why": "都市が便利である理由を具体例で支えている文だから。",
-      "signal": "supports",
-      "type": "根拠型",
-      "trap_note": "正解以外の選択肢は、学校で起きやすい読み違いパターンです。"
-    },
-    {
-      "id": "Q007",
-      "question": "What is the writer’s main point?",
-      "correct_arrow": "compare_conclusion",
-      "teacher_intent": "先生は「筆者の結論を読めているか」を見ています。",
-      "answer": "People should choose the place that suits their own life.",
-      "why": "両方の利点を示し、最後に自分に合う生活を考えるべきだとまとめているから。",
-      "signal": "main point",
-      "type": "主張型",
-      "trap_note": "正解以外の選択肢は、学校で起きやすい読み違いパターンです。"
-    },
-    {
-      "id": "Q008",
       "question": "Which is NOT stated in the passage?",
-      "correct_arrow": "compare_conclusion",
-      "teacher_intent": "先生は「本文にある情報とない情報を切り分けられるか」を見ています。",
-      "answer": "Cities are always better than the countryside.",
-      "why": "本文は都市が常に優れているとは言っていないから。",
+      "correct": "compare",
       "signal": "not stated",
       "type": "除外型",
-      "trap_note": "正解以外の選択肢は、学校で起きやすい読み違いパターンです。"
-    },
-    {
-      "id": "Q009",
-      "question": "Which arrow best shows the structure of the passage?",
-      "correct_arrow": "compare_conclusion",
-      "teacher_intent": "先生は「文章の流れそのものを見抜けるか」を見ています。",
-      "answer": "City advantages → Countryside advantages → Personal choice.",
-      "why": "都市の利点、田舎の利点、最後に個人に合う選択という順だから。",
-      "signal": "structure",
-      "type": "構造・矢印型",
-      "trap_note": "正解以外の選択肢は、学校で起きやすい読み違いパターンです。"
-    },
-    {
-      "id": "Q010",
-      "question": "What question did the teacher probably want students to answer through this passage?",
-      "correct_arrow": "compare_conclusion",
-      "teacher_intent": "先生は「出題意図を読めるか」を見ています。",
-      "answer": "Can you compare two choices and explain which conclusion the writer reaches?",
-      "why": "本文全体が、対比から結論へ進む構造だから。",
-      "signal": "teacher intent",
-      "type": "出題意図型",
-      "trap_note": "正解以外の選択肢は、学校で起きやすい読み違いパターンです。"
+      "intent": "本文にある情報とない情報を切り分けられるかを見ています。",
+      "answer": "Cities are always better than the countryside.",
+      "why": "本文は都市が常に優れているとは言っていないから。"
     }
   ]
 }
