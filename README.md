@@ -1,2 +1,2 @@
-東大の森 v8 Mobile Arrow Hunter
-スマホ優先、一行横矢印、添付キャラ使用。
+Word World TED Lv01〜Lv06 UI Sample
+TEDテーマを元にしたUI確認用サンプルです。

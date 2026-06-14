@@ -1,0 +1,94 @@
+{
+  "title": "How will AI change the world?",
+  "theme": "AI / human-compatible technology",
+  "levels": [
+    [
+      "Lv01",
+      "入口反応",
+      "human-compatible",
+      "知ってる？",
+      [
+        "知ってる",
+        "知らない"
+      ],
+      "YES / NO",
+      "1秒以内",
+      "単語・句・問いの合図を見た瞬間に反応する。"
+    ],
+    [
+      "Lv02",
+      "概念",
+      "human-compatible",
+      "一番近いイメージは？",
+      [
+        "人間に合わせる",
+        "人間を置き換える",
+        "人間を監視する",
+        "人間を無視する"
+      ],
+      "AI → 人間の目的に合わせる → 安全に使える",
+      "3秒以内",
+      "単語ではなく概念として見る。"
+    ],
+    [
+      "Lv03",
+      "文",
+      "Can we build AI systems that help us solve human problems?",
+      "この文は何を聞いている？",
+      [
+        "AIを問題解決に使えるか",
+        "AIは人間より速いか",
+        "AIは感情を持つか",
+        "AIは仕事を奪うか"
+      ],
+      "AI systems → help humans → solve problems",
+      "5秒以内",
+      "文の役割を見る。"
+    ],
+    [
+      "Lv04",
+      "段落",
+      "AI can support medicine, education, and research. However, it may also create risks if its goals are not aligned with human values.",
+      "この段落の流れは？",
+      [
+        "可能性 ⇔ リスク",
+        "理由 → 結果",
+        "具体例 → 主張",
+        "問題 → 解決策"
+      ],
+      "AIの可能性 ⇔ AIのリスク",
+      "10秒以内",
+      "段落の流れを見る。"
+    ],
+    [
+      "Lv05",
+      "構造",
+      "AIの可能性とリスクを比べ、最後に人間に合うAIを作れるかを問う。",
+      "この話の構造は？",
+      [
+        "A ⇔ B → 結論",
+        "理由 → 結果",
+        "具体例 → 主張",
+        "問題 → 解決策"
+      ],
+      "AIの可能性 ⇔ AIの危険 → 人間に合うAIを作れるか",
+      "3秒以内",
+      "構造を見抜く。"
+    ],
+    [
+      "Lv06",
+      "意図",
+      "AI is neither simply good nor simply dangerous. The real question is whether we can design it to work with human values.",
+      "出題者は何を見たい？",
+      [
+        "単純な賛否ではなく可能性と危険を比べて結論を読む力",
+        "AIの専門用語を暗記する力",
+        "AIの歴史年表を覚える力",
+        "難しい単語を訳す力"
+      ],
+      "便利 ⇔ 危険 → 人間に合う設計",
+      "10〜20秒",
+      "構造の奥にある意図を見る。"
+    ]
+  ]
+}
