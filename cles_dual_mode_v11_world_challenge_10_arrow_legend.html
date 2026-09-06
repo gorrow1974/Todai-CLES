@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CLES WORLD Challenge v1.0</title>
+<style>
+:root{--bg:#f5f7fb;--card:#fff;--text:#172033;--muted:#667085;--line:#d9dee8;--accent:#1f5eff;--ok:#0f9f6e;--bad:#d92d20;--warn:#c27803}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--bg);color:var(--text)}
+.wrap{max-width:1040px;margin:0 auto;padding:16px}.header{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin-bottom:12px}
+h1{font-size:22px;margin:0}.sub,.small{font-size:13px;color:var(--muted)}.card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:22px;box-shadow:0 8px 24px rgba(16,24,40,.06);margin-bottom:12px}
+.modeGrid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.modeCard{cursor:pointer;text-align:left;min-height:180px}.modeTitle{font-size:24px;font-weight:900;margin-bottom:8px}.modeDesc{color:var(--muted);line-height:1.7}
+button{font-family:inherit;border:0;border-radius:14px;padding:13px 18px;font-weight:800;cursor:pointer}.primary{background:var(--accent);color:white}.secondary{background:#eef0f5;color:var(--text)}.danger{background:#fff1f0;color:#b42318}
+.topBtns{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}.score{background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px 12px;font-size:13px}
+.view{display:none}.view.active{display:block}
+.termBig{font-size:42px;font-weight:900;text-align:center;padding:34px 12px;background:#f9fafb;border:1px solid var(--line);border-radius:18px;min-height:140px;display:flex;align-items:center;justify-content:center}
+.qrow{display:grid;grid-template-columns:1fr auto 1fr;gap:14px;align-items:center;margin:18px 0}.term{font-size:30px;font-weight:900;text-align:center;background:#f9fafb;border:1px solid var(--line);border-radius:18px;min-height:90px;display:flex;align-items:center;justify-content:center;padding:12px}.qmark{font-size:44px;font-weight:900;color:var(--muted)}
+.arrowGrid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:18px 0}.arrowBtn{min-height:62px;font-size:32px;font-weight:900;border-radius:16px;border:2px solid #c8d7ff;background:#edf2ff;color:#173ea5;cursor:pointer}.arrowBtn.correct{background:var(--ok);color:#fff;border-color:var(--ok)}.arrowBtn.wrong{background:var(--bad);color:#fff;border-color:var(--bad)}.arrowBtn.selected{background:var(--accent);color:#fff;border-color:var(--accent);transform:scale(1.03)}
+.timer{text-align:center;font-size:42px;font-weight:900;color:var(--accent);min-height:52px}.result{display:none;border-top:1px solid var(--line);padding-top:14px;margin-top:12px}.judge{font-size:24px;font-weight:900}.ok{color:var(--ok)}.bad{color:var(--bad)}.close{color:var(--warn)}.example{font-size:20px;font-weight:800;margin-top:10px}.translation{color:var(--muted);margin:4px 0 14px}
+.feedback{border-radius:16px;padding:14px;margin:10px 0;border:1px solid var(--line);background:#f9fafb}.feedback.core{border-left:6px solid var(--accent)}.feedback.wrong{border-left:6px solid var(--bad);background:#fff7f6}textarea{width:100%;min-height:80px;font-size:16px;border:1px solid var(--line);border-radius:14px;padding:12px}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}.metric{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px}.metric b{font-size:24px}.metric span{display:block;color:var(--muted);font-size:13px}
+table{width:100%;border-collapse:collapse;background:#fff;border-radius:16px;overflow:hidden;border:1px solid var(--line)}th,td{padding:9px;border-bottom:1px solid #eef0f5;text-align:left;font-size:13px}th{background:#f9fafb}.pill{display:inline-block;border-radius:999px;padding:2px 8px;background:#eef0f5;margin:2px}
+
+.challengeChoice{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0}.choiceBtn{background:#fff;border:1px solid var(--line);color:var(--text);text-align:left;min-height:74px}.choiceBtn:hover{border-color:#9bb4ff}.choiceBtn.picked{outline:3px solid #9bb4ff;background:#f4f7ff}.breakBox{margin:18px 0;padding:14px;border:1px dashed #f59e0b;border-radius:18px;background:#fffbeb}.breakBtn{background:#111827;color:#fff;width:100%;font-size:16px}.missionTag{display:inline-block;background:#eef4ff;color:#173ea5;border-radius:999px;padding:5px 10px;font-size:12px;font-weight:900}.missionTitle{font-size:28px;font-weight:1000;margin:8px 0}.scene{font-size:16px;line-height:1.8;background:#f9fafb;border-radius:16px;padding:16px;margin:12px 0}.challengePanel{display:none}.challengePanel.active{display:block}.criteriaGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:12px 0}.criterion{background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px;font-size:12px}.criterion b{display:block;font-size:18px}.field{margin:10px 0}.field label{display:block;font-weight:900;margin-bottom:5px}.field textarea{min-height:64px}.reviewTarget{border-left:6px solid #7c3aed;background:#faf5ff}.scoreBar{font-size:36px;font-weight:1000}.scoreMini{display:flex;gap:8px;flex-wrap:wrap}.scoreMini .pill{background:#eef4ff}.examReturn{border-left:6px solid var(--ok);background:#f0fdf4}.missionNav{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}.hidden{display:none!important}@media(max-width:760px){.challengeChoice{grid-template-columns:1fr}.criteriaGrid{grid-template-columns:1fr 1fr}.missionTitle{font-size:23px}}
+
+.arrowLegend{margin:14px 0 4px;padding:12px 14px;border:1px solid var(--line);border-radius:16px;background:#f8fafc}
+.arrowLegendTitle{font-weight:900;margin-bottom:8px}
+.arrowLegendGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.arrowLegendItem{display:flex;align-items:center;gap:9px;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:8px 10px;font-size:13px;line-height:1.35}
+.arrowLegendSymbol{font-size:22px;font-weight:900;min-width:28px;text-align:center;color:#173ea5}
+@media(max-width:760px){.arrowLegendGrid{grid-template-columns:1fr 1fr}}
+@media(max-width:760px){.header{flex-direction:column}.modeGrid{grid-template-columns:1fr}.qrow{grid-template-columns:1fr}.arrowGrid{grid-template-columns:repeat(3,1fr)}.grid{grid-template-columns:repeat(2,1fr)}.termBig{font-size:34px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="header">
+    <div><h1>CLES WORLD Challenge v1.0</h1><div class="sub">CLES v1.8互換 ＋ Arrow ＋ WORLD Challenge 10</div></div>
+    <div class="score" id="globalScore">Arrow履歴 0件</div>
+  </div>
+
+  <section id="home" class="view active">
+    <div class="modeGrid">
+      <div class="card modeCard" onclick="openView('classic')">
+        <div class="modeTitle">CLES v1.8</div>
+        <div class="modeDesc">既存CLES v1.8互換の単語カード練習。単語を見る → 例文を見る → 知ってる/知らないで記録。入り口はこっち。</div>
+      </div>
+      <div class="card modeCard" onclick="openView('arrowHome')">
+        <div class="modeTitle">CLES Arrow</div>
+        <div class="modeDesc">新型の矢印穴埋め。3秒で構造を見る練習。回答後に「なぜその矢印か」を表示。</div>
+      </div>
+      <div class="card modeCard" onclick="openChallenge()">
+        <div class="modeTitle">🌍 CLES WORLD</div>
+        <div class="modeDesc">普通の4択を解く。もし「この4択では足りない」と思ったら、枠外Challengeへ。WHY → REASON → EXAMPLE → COUNTER → PERSUADE → SPARKで問いを超える。</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="classic" class="view">
+    <div class="topBtns"><button class="secondary" onclick="openView('home')">ホーム</button><button class="secondary" onclick="classicShuffle()">ランダム</button><button class="secondary" onclick="classicNext()">次へ</button></div>
+    <div class="card">
+      <div class="small" id="classicMeta"></div>
+      <div class="termBig" id="classicWord"></div>
+      <div id="classicAnswer" class="result">
+        <div class="example" id="classicExample"></div>
+        <div class="translation" id="classicTranslation"></div>
+        <div class="feedback core"><b>この単語の型：</b><span id="classicArrow"></span></div>
+      </div>
+      <div class="topBtns">
+        <button class="primary" onclick="classicShow()">例文を見る</button>
+        <button class="secondary" onclick="classicMark(true)">知ってる</button>
+        <button class="danger" onclick="classicMark(false)">知らない</button>
+      </div>
+      <div class="small" id="classicMsg"></div>
+    </div>
+  </section>
+
+  <section id="arrowHome" class="view">
+    <div class="topBtns">
+      <button class="secondary" onclick="openView('home')">ホーム</button>
+      <button class="secondary" onclick="setArrowMode('daily')">1日10問</button>
+      <button class="secondary" onclick="setArrowMode('all')">全50問</button>
+      <button class="secondary" onclick="setArrowMode('miss')">ミス復習</button>
+      <button class="secondary" onclick="toggleShuffle()">ランダム</button>
+      <button class="primary" onclick="startArrow()">スタート</button>
+      <button class="secondary" onclick="openView('dash');updateDashboard()">Dashboard</button>
+    </div>
+    <div class="card" id="arrowStart">
+      <div style="text-align:center;padding:28px 10px">
+        <h2 style="margin:0 0 10px">CLES Arrow Training</h2>
+      <div class="arrowLegend" aria-label="Arrow legend">
+        <div class="arrowLegendTitle">🧭 Arrow 凡例</div>
+        <div class="arrowLegendGrid">
+          <div class="arrowLegendItem"><span class="arrowLegendSymbol">↑</span><span><b>増加</b><br>increase / rise</span></div>
+          <div class="arrowLegendItem"><span class="arrowLegendSymbol">↓</span><span><b>減少</b><br>decrease / fall</span></div>
+          <div class="arrowLegendItem"><span class="arrowLegendSymbol">→</span><span><b>直接因果</b><br>cause / lead to</span></div>
+          <div class="arrowLegendItem"><span class="arrowLegendSymbol">↗</span><span><b>促進・支援</b><br>support / promote</span></div>
+          <div class="arrowLegendItem"><span class="arrowLegendSymbol">↘</span><span><b>抑制・阻害</b><br>hinder / reduce</span></div>
+          <div class="arrowLegendItem"><span class="arrowLegendSymbol">⇔</span><span><b>比較・対照</b><br>compare / contrast</span></div>
+          <div class="arrowLegendItem"><span class="arrowLegendSymbol">⚔</span><span><b>対立・トレードオフ</b><br>conflict / trade-off</span></div>
+          <div class="arrowLegendItem"><span class="arrowLegendSymbol">⇄</span><span><b>置換・変換</b><br>replace / transform</span></div>
+          <div class="arrowLegendItem"><span class="arrowLegendSymbol">＝</span><span><b>同一・等価</b><br>same / equivalent</span></div>
+        </div>
+        <div class="small" style="margin-top:8px">※ 文脈によって複数の矢印が成立する場合があります。CLESでは「最も自然な関係」を選びます。</div>
+      </div>
+
+        <div class="sub" id="modeLabel">現在：1日10問</div>
+      </div>
+    </div>
+    <div class="card" id="arrowQuiz" style="display:none">
+      <div class="small"><span id="qid"></span> / <span id="theme"></span></div>
+      <div class="timer" id="timer">3</div>
+      <div class="qrow"><div class="term" id="left"></div><div class="qmark">?</div><div class="term" id="right"></div></div>
+
+      <details class="arrowLegend" style="margin-top:10px">
+        <summary style="font-weight:900;cursor:pointer">🧭 矢印の意味を確認</summary>
+        <div class="arrowLegendGrid" style="margin-top:10px">
+          <div class="arrowLegendItem"><span class="arrowLegendSymbol">↑</span><span>増加</span></div><div class="arrowLegendItem"><span class="arrowLegendSymbol">↓</span><span>減少</span></div><div class="arrowLegendItem"><span class="arrowLegendSymbol">→</span><span>直接因果</span></div>
+          <div class="arrowLegendItem"><span class="arrowLegendSymbol">↗</span><span>促進・支援</span></div><div class="arrowLegendItem"><span class="arrowLegendSymbol">↘</span><span>抑制・阻害</span></div><div class="arrowLegendItem"><span class="arrowLegendSymbol">⇔</span><span>比較・対照</span></div>
+          <div class="arrowLegendItem"><span class="arrowLegendSymbol">⚔</span><span>対立</span></div><div class="arrowLegendItem"><span class="arrowLegendSymbol">⇄</span><span>置換・変換</span></div><div class="arrowLegendItem"><span class="arrowLegendSymbol">＝</span><span>同一・等価</span></div>
+        </div>
+      </details>
+      <div class="arrowGrid" id="arrowGrid"></div>
+      <div class="result" id="arrowResult">
+        <div class="judge" id="judge"></div>
+        <div>選択：<b id="your"></b>　最適：<b id="best"></b></div>
+        <div class="example" id="example"></div>
+        <div class="translation" id="translation"></div>
+        <div class="feedback core"><b>この問題の見方：</b><div id="coreFeedback"></div></div>
+        <div class="feedback wrong" id="wrongBox"><b>見直し：</b><div id="wrongFeedback"></div></div>
+        <div class="feedback"><b>東大型：</b><span id="deep"></span></div>
+        <label>なぜそう思った？<textarea id="memo" placeholder="一言でOK"></textarea></label>
+        <div class="topBtns"><button class="secondary" onclick="saveReason()">ログ保存</button><button class="primary" onclick="arrowNext()">次の問題</button></div>
+        <div class="small" id="msg"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="challenge" class="view">
+    <div class="topBtns"><button class="secondary" onclick="openView('home')">ホーム</button><button class="secondary" onclick="challengePrev()">← 前</button><button class="secondary" onclick="challengeNext()">次 →</button><button class="secondary" onclick="openView('challengeDash');updateChallengeDash()">Challenge Log</button></div>
+    <div class="card">
+      <span class="missionTag" id="cmTag"></span>
+      <div class="missionTitle" id="cmTitle"></div>
+      <div class="scene" id="cmScene"></div>
+      <div class="feedback core"><b>EXAM QUESTION</b><div id="cmQuestion" style="margin-top:6px"></div></div>
+      <div class="small">まずは普通のテストとして、A〜Dから <b>MOST LIKELY</b> を選ぶ。</div>
+      <div class="challengeChoice" id="cmChoices"></div>
+      <div id="examHint" class="small"></div>
+      <div class="breakBox">
+        <div style="font-weight:900;margin-bottom:8px">⚡ この4択では足りないと思う？</div>
+        <div class="small" style="margin-bottom:10px">これは5択目ではありません。問題の枠そのものを疑うチャレンジです。選ぶだけでは加点されません。</div>
+        <button class="breakBtn" onclick="startBreak()">BREAK THE FRAME — Challenge Mode</button>
+      </div>
+      <div id="challengePanel" class="challengePanel">
+        <div class="feedback" style="border-left:6px solid #111827"><b>🔥 HOW TO ANSWER</b><div class="small">CLAIM → WHY → REASON / EVIDENCE → EXAMPLE → COUNTER → PERSUADE → SPARK</div></div>
+        <div class="criteriaGrid">
+          <div class="criterion"><b>THINK 30</b>WHY・論理・Evidence・反証</div>
+          <div class="criterion"><b>BUILD 25</b>構成・文法・語彙・明瞭さ</div>
+          <div class="criterion"><b>PERSUADE 25</b>説得力・具体例・結論</div>
+          <div class="criterion"><b>SPARK 20</b>独創性・Energy・Passion・Wit</div>
+        </div>
+        <div class="field"><label>1. CLAIM — 私はこう考える</label><textarea id="fClaim" placeholder="結論を一言で"></textarea></div>
+        <div class="field"><label>2. WHY — なぜ？</label><textarea id="fWhy" placeholder="なぜ4択では足りない？"></textarea></div>
+        <div class="field"><label>3. REASON / EVIDENCE — 根拠は？</label><textarea id="fReason" placeholder="論理・事実・データ"></textarea></div>
+        <div class="field"><label>4. EXAMPLE — 例えば？</label><textarea id="fExample" placeholder="具体例を1つ"></textarea></div>
+        <div class="field"><label>5. COUNTER — 反対側なら？</label><textarea id="fCounter" placeholder="自分に不利な見方も一度扱う"></textarea></div>
+        <div class="field"><label>6. PERSUADE — それでも、なぜあなたの案？</label><textarea id="fPersuade" placeholder="説明ではなく、相手の考えを動かす"></textarea></div>
+        <div class="field"><label>7. SPARK — あなたにしか言えない一言</label><textarea id="fSpark" placeholder="比喩・ウィット・熱量。空欄でも減点しすぎない"></textarea></div>
+        <div class="topBtns"><button class="primary" onclick="scoreChallenge()">採点 → Review 1項目</button><button class="secondary" onclick="saveChallengeDraft()">下書き保存</button></div>
+        <div id="scoreBox" class="feedback hidden"></div>
+        <div id="reviewBox" class="feedback reviewTarget hidden"></div>
+        <div id="retryBox" class="hidden">
+          <div class="field"><label id="retryLabel">今回直すのは1項目だけ</label><textarea id="fRetry"></textarea></div>
+          <button class="primary" onclick="applyOneReview()">この1項目だけ改善する</button>
+        </div>
+        <div id="returnBox" class="feedback examReturn hidden">
+          <b>🎓 NOW BACK TO THE EXAM</b>
+          <div style="margin-top:6px">現実の試験では4択です。Challengeで考えたあと、A〜Dから <b>MOST LIKELY</b> をもう一度選んでください。</div>
+          <div class="challengeChoice" id="cmChoicesReturn"></div>
+          <div id="returnMsg" class="small"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="challengeDash" class="view">
+    <div class="topBtns"><button class="secondary" onclick="openChallenge()">Challengeへ</button><button class="secondary" onclick="openView('home')">ホーム</button></div>
+    <div class="card"><h2>WORLD Challenge Log</h2><div id="challengeLogBody" class="small">まだ記録がありません。</div></div>
+  </section>
+
+  <section id="dash" class="view">
+    <div class="topBtns"><button class="secondary" onclick="openView('home')">ホーム</button><button class="secondary" onclick="openView('arrowHome')">Arrowへ</button><button class="secondary" onclick="exportCsv()">CSV出力</button><button class="danger" onclick="clearHistory()">履歴クリア</button></div>
+    <div class="grid">
+      <div class="metric"><b id="mTotal">0</b><span>回答数</span></div>
+      <div class="metric"><b id="mCorrect">0%</b><span>正答率</span></div>
+      <div class="metric"><b id="mInstant">0%</b><span>瞬殺率</span></div>
+      <div class="metric"><b id="mAvg">0.0s</b><span>平均回答時間</span></div>
+    </div>
+    <div class="card"><h2 style="font-size:18px;margin-top:0">苦手矢印</h2><div id="weakList" class="small"></div></div>
+    <table><thead><tr><th>日時</th><th>ID</th><th>問題</th><th>選択</th><th>最適</th><th>正誤</th><th>秒</th></tr></thead><tbody id="histBody"></tbody></table>
+  </section>
+</div>
+
+<script>
+const QUESTIONS = [{"id": "E-001", "theme": "education", "left": "curiosity", "right": "learning", "answer_arrows": ["↗"], "best_arrow": "↗", "target_words": ["promote", "encourage"], "example": "Curiosity promotes learning.", "translation": "好奇心は学習を促進する。", "why_prompt": "なぜ好奇心が学習を促す？", "deep_prompt": "好奇心がなくても学べる？", "feedback": {"core": "curiosity は learning の直接原因というより、学習を後押しする力。だから ↗ が最も自然。", "when_wrong": "→ は近いが強すぎる。好奇心があれば必ず学ぶわけではないので、直接因果より促進が自然。↑ は learning そのものの増加だけを見ていて、関係性の質が見えていない。"}}, {"id": "E-002", "theme": "education", "left": "knowledge", "right": "understanding", "answer_arrows": ["↗"], "best_arrow": "↗", "target_words": ["contribute to", "support"], "example": "Knowledge contributes to deeper understanding.", "translation": "知識はより深い理解に役立つ。", "why_prompt": "知識と理解は何が違う？", "deep_prompt": "知識が増えても理解できない例は？", "feedback": {"core": "knowledge は understanding を支える材料。知識＝理解ではない。", "when_wrong": "→ はやや強い。暗記だけでは理解にならない。＝ は危険で、知識と理解を同一視している。"}}, {"id": "E-003", "theme": "education", "left": "practice", "right": "skill", "answer_arrows": ["→", "↗"], "best_arrow": "→", "target_words": ["lead to", "improve"], "example": "Practice leads to better skills.", "translation": "練習は技能向上につながる。", "why_prompt": "なぜ練習は skill に直結しやすい？", "deep_prompt": "練習量だけで上達する？", "feedback": {"core": "practice は skill を上げる典型的な因果。だから → が最適。↗ も許容だが少し弱い。", "when_wrong": "↗ は惜しい。助けるという意味では正しいが、ここでは lead to 型。↑ は skill が増える結果だけを見ている。"}}, {"id": "E-004", "theme": "education", "left": "failure", "right": "growth", "answer_arrows": ["↗"], "best_arrow": "↗", "target_words": ["contribute to", "help"], "example": "Failure can contribute to personal growth.", "translation": "失敗は個人の成長に役立つことがある。", "why_prompt": "なぜ失敗が成長に役立つ？", "deep_prompt": "失敗しても成長しない場合は？", "feedback": {"core": "failure は growth の直接原因ではなく、学び方次第で成長に貢献する。だから ↗。", "when_wrong": "→ は強すぎる。失敗すれば必ず成長するわけではない。↓ も現実にはあり得るが、この問題では失敗から学ぶ構造を問う。"}}, {"id": "E-005", "theme": "education", "left": "effort", "right": "success", "answer_arrows": ["↗"], "best_arrow": "↗", "target_words": ["contribute to", "lead to"], "example": "Effort contributes to success.", "translation": "努力は成功に貢献する。", "why_prompt": "なぜ → ではなく ↗ が自然？", "deep_prompt": "努力しても成功しない例は？", "feedback": {"core": "effort は success の重要要素だが、才能・環境・運も関係する。だから → より ↗。", "when_wrong": "→ は努力すれば必ず成功という強い前提。東大型には条件を疑う。努力は成功を助けるが保証はしない。"}}, {"id": "E-006", "theme": "education", "left": "sleep", "right": "concentration", "answer_arrows": ["↗"], "best_arrow": "↗", "target_words": ["improve", "support"], "example": "Adequate sleep improves concentration.", "translation": "十分な睡眠は集中力を高める。", "why_prompt": "なぜ sleep は concentration を助ける？", "deep_prompt": "寝すぎるとどうなる？", "feedback": {"core": "adequate sleep は concentration を改善・支援する。ポイントは adequate。", "when_wrong": "↑ は結果だけを見ている。sleep と concentration の関係は支援・改善なので ↗ が自然。"}}, {"id": "E-007", "theme": "education", "left": "stress", "right": "learning", "answer_arrows": ["↘", "↓"], "best_arrow": "↘", "target_words": ["hinder", "reduce"], "example": "Stress can hinder learning.", "translation": "ストレスは学習を妨げることがある。", "why_prompt": "なぜ stress は learning を妨げる？", "deep_prompt": "適度なストレスは逆に役立つ？", "feedback": {"core": "stress は learning を直接減らすより、妨げる・阻害する。だから ↘ が最適。", "when_wrong": "↓ は近いが、学習量ではなく集中や記憶を阻害すると捉える。↗ は適度な緊張なら成立するが、この問題では負荷として扱う。"}}, {"id": "E-008", "theme": "education", "left": "technology", "right": "education", "answer_arrows": ["↗", "→"], "best_arrow": "↗", "target_words": ["improve", "support"], "example": "Technology improves education.", "translation": "テクノロジーは教育を改善する。", "why_prompt": "なぜ technology は education を助ける？", "deep_prompt": "悪影響はある？", "feedback": {"core": "technology は education を支援・改善する道具。必ず良くするとは限らないので ↗ が自然。", "when_wrong": "→ は少し強い。技術導入だけで教育が良くなるとは限らない。⚔ や ↘ も条件次第であり得る。"}}, {"id": "E-009", "theme": "education", "left": "competition", "right": "motivation", "answer_arrows": ["↗", "↑"], "best_arrow": "↗", "target_words": ["increase", "encourage"], "example": "Competition can increase motivation.", "translation": "競争はやる気を高めることがある。", "why_prompt": "なぜ competition は motivation を高める？", "deep_prompt": "競争が逆効果になる場合は？", "feedback": {"core": "competition は motivation を高める場合がある。ただし人によっては萎縮するので ↗。", "when_wrong": "↑ は結果として近いが、competition は motivation そのものではなく促す要因。↘ なら過度な競争という条件説明が必要。"}}, {"id": "E-010", "theme": "education", "left": "memorization", "right": "understanding", "answer_arrows": ["↗"], "best_arrow": "↗", "target_words": ["support", "contribute to"], "example": "Memorization can support understanding.", "translation": "暗記は理解を支えることがある。", "why_prompt": "暗記は理解そのもの？", "deep_prompt": "暗記だけで理解できる？", "feedback": {"core": "memorization は understanding の土台にはなるが、理解そのものではない。だから ↗。", "when_wrong": "＝ は要注意。暗記と理解を同一視している。→ も強すぎる。考える過程がないと理解にはならない。"}}, {"id": "T-001", "theme": "technology", "left": "AI", "right": "routine jobs", "answer_arrows": ["⇄", "↘"], "best_arrow": "⇄", "target_words": ["replace", "automate"], "example": "AI can replace routine jobs.", "translation": "AIは定型業務を置き換えることがある。", "why_prompt": "AIは仕事を奪う？置き換える？", "deep_prompt": "新しい仕事は生まれる？", "feedback": {"core": "AI と routine jobs は単純な増減ではなく、置換の関係として見ると深い。", "when_wrong": "↓ だと仕事が減る結果だけを見る。⇄ なら『古い仕事が別の仕事に置き換わる』構造まで見える。"}}, {"id": "T-002", "theme": "technology", "left": "automation", "right": "productivity", "answer_arrows": ["↗", "↑"], "best_arrow": "↗", "target_words": ["improve", "increase"], "example": "Automation can improve productivity.", "translation": "自動化は生産性を高めることがある。", "why_prompt": "なぜ automation は productivity を助ける？", "deep_prompt": "自動化で逆に非効率になる例は？", "feedback": {"core": "automation は productivity を支援する要因。必ず上がるわけではない。", "when_wrong": "↑ は結果だけ。↗ は『自動化が生産性向上を促す』という関係を表せる。"}}, {"id": "T-003", "theme": "technology", "left": "privacy", "right": "convenience", "answer_arrows": ["⚔", "⇔"], "best_arrow": "⚔", "target_words": ["conflict with", "trade off"], "example": "Privacy often conflicts with convenience.", "translation": "プライバシーと利便性はしばしば対立する。", "why_prompt": "なぜ対立しやすい？", "deep_prompt": "両立できる設計は？", "feedback": {"core": "privacy と convenience はトレードオフになりやすい。", "when_wrong": "⇔ は比較に止まる。⚔ は価値同士の衝突まで表せる。"}}, {"id": "T-004", "theme": "technology", "left": "data", "right": "decision making", "answer_arrows": ["↗"], "best_arrow": "↗", "target_words": ["support", "improve"], "example": "Data supports better decision making.", "translation": "データはより良い意思決定を支える。", "why_prompt": "データはなぜ判断を助ける？", "deep_prompt": "データがあっても判断を誤る例は？", "feedback": {"core": "data は判断の材料であり、決定そのものではない。", "when_wrong": "→ は強すぎる。データがあっても解釈を誤れば悪い判断になる。"}}, {"id": "T-005", "theme": "technology", "left": "social media", "right": "misinformation", "answer_arrows": ["↗", "→"], "best_arrow": "↗", "target_words": ["spread", "contribute to"], "example": "Social media can contribute to the spread of misinformation.", "translation": "SNSは誤情報の拡散に関与することがある。", "why_prompt": "なぜSNSで誤情報が広がる？", "deep_prompt": "SNSは学習にも役立つ？", "feedback": {"core": "social media は misinformation を促進し得るが、必ずではない。", "when_wrong": "→ も文脈次第で可。ただし can contribute to の柔らかさを読むなら ↗。"}}, {"id": "S-001", "theme": "society", "left": "population aging", "right": "medical costs", "answer_arrows": ["→", "↗"], "best_arrow": "→", "target_words": ["lead to", "increase"], "example": "Population aging leads to higher medical costs.", "translation": "高齢化は医療費増加につながる。", "why_prompt": "なぜ高齢化で医療費が上がる？", "deep_prompt": "予防医療で抑えられる？", "feedback": {"core": "ここは典型的な社会因果。人口構造の変化が費用に影響する。", "when_wrong": "↗ も可だが、社会問題の因果としては → が見やすい。"}}, {"id": "S-002", "theme": "society", "left": "urbanization", "right": "rural decline", "answer_arrows": ["→", "↗"], "best_arrow": "→", "target_words": ["lead to", "contribute to"], "example": "Urbanization can contribute to rural decline.", "translation": "都市化は地方の衰退に関与することがある。", "why_prompt": "なぜ都市化が地方に影響する？", "deep_prompt": "地方が強くなる例は？", "feedback": {"core": "urbanization と rural decline は社会構造の因果として読む。", "when_wrong": "↑/↓だけだと片方の増減しか見えない。→ で構造を捉える。"}}, {"id": "S-003", "theme": "society", "left": "inequality", "right": "social tension", "answer_arrows": ["↗", "→"], "best_arrow": "↗", "target_words": ["increase", "contribute to"], "example": "Inequality can increase social tension.", "translation": "格差は社会的緊張を高めることがある。", "why_prompt": "なぜ格差が緊張を生む？", "deep_prompt": "格差があっても安定する条件は？", "feedback": {"core": "inequality は tension を高める要因。ただし制度や文化で変わる。", "when_wrong": "→ は強い。↗ は条件付きの促進関係に向く。"}}, {"id": "S-004", "theme": "society", "left": "trust", "right": "business", "answer_arrows": ["↗"], "best_arrow": "↗", "target_words": ["support", "promote"], "example": "Trust supports business relationships.", "translation": "信頼はビジネス関係を支える。", "why_prompt": "信頼はなぜ商売に効く？", "deep_prompt": "契約だけで十分？", "feedback": {"core": "trust は business を直接発生させるのではなく、継続や協力を支える。", "when_wrong": "→ は強すぎる。信頼は土台・促進要因。"}}, {"id": "S-005", "theme": "society", "left": "tradition", "right": "modernization", "answer_arrows": ["⚔", "⇔"], "best_arrow": "⚔", "target_words": ["conflict with", "coexist"], "example": "Tradition sometimes conflicts with modernization.", "translation": "伝統は近代化と衝突することがある。", "why_prompt": "なぜ対立する？", "deep_prompt": "共存できる？", "feedback": {"core": "tradition と modernization は価値観の衝突として扱いやすい。", "when_wrong": "⇔ は比較。⚔ は『両立しにくさ』まで表せる。"}}, {"id": "ENV-001", "theme": "environment", "left": "economic growth", "right": "energy consumption", "answer_arrows": ["→", "↑"], "best_arrow": "→", "target_words": ["lead to", "increase"], "example": "Economic growth often leads to higher energy consumption.", "translation": "経済成長はエネルギー消費増加につながることが多い。", "why_prompt": "なぜ成長で消費が増える？", "deep_prompt": "脱炭素成長は可能？", "feedback": {"core": "growth と consumption は長文で頻出の因果連鎖。", "when_wrong": "↑ は消費が増える結果だけ。→ は成長が原因であることを示す。"}}, {"id": "ENV-002", "theme": "environment", "left": "renewable energy", "right": "carbon emissions", "answer_arrows": ["↘", "↓"], "best_arrow": "↘", "target_words": ["reduce", "prevent"], "example": "Renewable energy can reduce carbon emissions.", "translation": "再生可能エネルギーは炭素排出を減らせる。", "why_prompt": "なぜ排出が減る？", "deep_prompt": "本当にゼロ？", "feedback": {"core": "renewable energy は emissions を抑える要因。", "when_wrong": "↓ は排出が減る結果。↘ は抑制する働きまで見える。"}}, {"id": "ENV-003", "theme": "environment", "left": "pollution", "right": "health", "answer_arrows": ["↘", "↓"], "best_arrow": "↘", "target_words": ["harm", "damage"], "example": "Pollution harms human health.", "translation": "汚染は人間の健康を損なう。", "why_prompt": "なぜ汚染は健康に悪い？", "deep_prompt": "影響を受けにくい条件は？", "feedback": {"core": "pollution は health を阻害する。health が単に減るより、害する構造。", "when_wrong": "↓ でも近いが、↘ の方が『阻害・悪影響』を表せる。"}}, {"id": "ENV-004", "theme": "environment", "left": "climate change", "right": "ecosystems", "answer_arrows": ["↘", "⚔"], "best_arrow": "↘", "target_words": ["threaten", "damage"], "example": "Climate change threatens ecosystems.", "translation": "気候変動は生態系を脅かす。", "why_prompt": "何が脅かされる？", "deep_prompt": "適応できる生態系は？", "feedback": {"core": "climate change は ecosystems を圧迫・阻害する。", "when_wrong": "⚔ は対立だが、自然現象が生態系を脅かす場合は ↘ が見やすい。"}}, {"id": "ENV-005", "theme": "environment", "left": "recycling", "right": "waste", "answer_arrows": ["↘", "↓"], "best_arrow": "↘", "target_words": ["reduce", "decrease"], "example": "Recycling reduces waste.", "translation": "リサイクルは廃棄物を減らす。", "why_prompt": "なぜ waste が減る？", "deep_prompt": "リサイクルにもコストはある？", "feedback": {"core": "recycling は waste を抑える行為。", "when_wrong": "↓ は結果。↘ は抑制の働き。"}}, {"id": "EC-001", "theme": "economy", "left": "price", "right": "demand", "answer_arrows": ["↘", "⚔"], "best_arrow": "↘", "target_words": ["reduce", "affect"], "example": "Higher prices often reduce demand.", "translation": "価格上昇は需要を減らすことが多い。", "why_prompt": "なぜ高いと買われにくい？", "deep_prompt": "高くても売れるものは？", "feedback": {"core": "price と demand は経済の基本。多くの場合、高価格は需要を抑える。", "when_wrong": "⚔ はやや抽象的。ここでは price が demand を抑える ↘ がよい。"}}, {"id": "EC-002", "theme": "economy", "left": "investment", "right": "profit", "answer_arrows": ["↗", "→"], "best_arrow": "↗", "target_words": ["contribute to", "lead to"], "example": "Investment can contribute to future profit.", "translation": "投資は将来の利益に貢献することがある。", "why_prompt": "なぜ投資が利益につながる？", "deep_prompt": "投資しても失敗する例は？", "feedback": {"core": "investment は profit を保証しない。可能性を高める。", "when_wrong": "→ は強すぎる。投資は利益の条件の一つなので ↗。"}}, {"id": "EC-003", "theme": "economy", "left": "competition", "right": "innovation", "answer_arrows": ["↗"], "best_arrow": "↗", "target_words": ["promote", "encourage"], "example": "Competition promotes innovation.", "translation": "競争は革新を促進する。", "why_prompt": "なぜ競争で革新が生まれる？", "deep_prompt": "競争が過剰だと？", "feedback": {"core": "competition は innovation の促進要因。", "when_wrong": "→ は強い。競争があっても革新が出ない市場もある。"}}, {"id": "EC-004", "theme": "economy", "left": "unemployment", "right": "poverty", "answer_arrows": ["↗", "→"], "best_arrow": "↗", "target_words": ["contribute to", "increase"], "example": "Unemployment can contribute to poverty.", "translation": "失業は貧困に関与することがある。", "why_prompt": "なぜ失業が貧困に関係する？", "deep_prompt": "支援制度がある場合は？", "feedback": {"core": "unemployment は poverty の重要要因だが、制度に左右される。", "when_wrong": "→ は場合によって強い。↗ で条件付きにする。"}}, {"id": "EC-005", "theme": "economy", "left": "globalization", "right": "local culture", "answer_arrows": ["⚔", "↘"], "best_arrow": "⚔", "target_words": ["conflict with", "threaten"], "example": "Globalization can conflict with local culture.", "translation": "グローバル化は地域文化と衝突することがある。", "why_prompt": "なぜ衝突する？", "deep_prompt": "文化が広がる可能性は？", "feedback": {"core": "globalization と local culture は対立にも融合にもなる。ここでは価値衝突を見る。", "when_wrong": "↘ だと一方的な悪影響。⚔ は相互の緊張関係を表せる。"}}, {"id": "SCI-001", "theme": "science", "left": "temperature", "right": "reaction speed", "answer_arrows": ["↗", "↑"], "best_arrow": "↗", "target_words": ["increase", "accelerate"], "example": "Higher temperature can increase reaction speed.", "translation": "温度上昇は反応速度を高めることがある。", "why_prompt": "なぜ温度で速くなる？", "deep_prompt": "例外は？", "feedback": {"core": "temperature は reaction speed を上げる条件。理科転用に向く。", "when_wrong": "↑ は結果。↗ は温度が速度上昇を促す関係。"}}, {"id": "SCI-002", "theme": "science", "left": "force", "right": "acceleration", "answer_arrows": ["→"], "best_arrow": "→", "target_words": ["cause", "produce"], "example": "Force causes acceleration.", "translation": "力は加速度を生む。", "why_prompt": "なぜ力で加速する？", "deep_prompt": "摩擦がある場合は？", "feedback": {"core": "物理では原因と結果が明確。force → acceleration。", "when_wrong": "↗ だと弱い。ここは定石的に →。"}}, {"id": "SCI-003", "theme": "science", "left": "evidence", "right": "theory", "answer_arrows": ["↗"], "best_arrow": "↗", "target_words": ["support", "strengthen"], "example": "Evidence supports a theory.", "translation": "証拠は理論を支える。", "why_prompt": "証拠は理論そのもの？", "deep_prompt": "反証が出たら？", "feedback": {"core": "evidence は theory を証明し切るより支える。", "when_wrong": "＝ は誤り。証拠と理論は同じではない。→ も強すぎる場合がある。"}}, {"id": "SCI-004", "theme": "science", "left": "observation", "right": "hypothesis", "answer_arrows": ["↗", "→"], "best_arrow": "↗", "target_words": ["lead to", "support"], "example": "Observation can lead to a hypothesis.", "translation": "観察は仮説につながることがある。", "why_prompt": "観察からなぜ仮説が出る？", "deep_prompt": "観察が偏っていたら？", "feedback": {"core": "observation は hypothesis の材料。必ずではない。", "when_wrong": "→ も可だが、科学的思考では条件付きの ↗ が柔らかい。"}}, {"id": "SCI-005", "theme": "science", "left": "medicine", "right": "disease", "answer_arrows": ["↘"], "best_arrow": "↘", "target_words": ["treat", "prevent"], "example": "Medicine can reduce the effects of disease.", "translation": "薬は病気の影響を減らすことがある。", "why_prompt": "薬は何を減らす？", "deep_prompt": "副作用は？", "feedback": {"core": "medicine は disease そのものを消すとは限らず、症状や影響を抑える。", "when_wrong": "↓ は単純化しすぎ。↘ で抑制・治療の働きを表す。"}}, {"id": "PH-001", "theme": "philosophy", "left": "freedom", "right": "responsibility", "answer_arrows": ["⇔", "⚔"], "best_arrow": "⇔", "target_words": ["relate to", "balance"], "example": "Freedom is closely related to responsibility.", "translation": "自由は責任と密接に関係する。", "why_prompt": "なぜ自由に責任が伴う？", "deep_prompt": "自由と責任は対立する？", "feedback": {"core": "freedom と responsibility は比較・関係性で捉える。", "when_wrong": "⚔ も議論可能だが、まずは関係を比較する ⇔。"}}, {"id": "PH-002", "theme": "philosophy", "left": "happiness", "right": "wealth", "answer_arrows": ["⇔", "↗"], "best_arrow": "⇔", "target_words": ["compare", "relate"], "example": "Happiness is not the same as wealth.", "translation": "幸福は富と同じではない。", "why_prompt": "富は幸福を増やす？", "deep_prompt": "貧しくても幸せな例は？", "feedback": {"core": "happiness と wealth は同一ではなく比較対象。", "when_wrong": "↗ を選ぶなら『一定までは富が幸福を支える』という条件が必要。"}}, {"id": "PH-003", "theme": "philosophy", "left": "choice", "right": "regret", "answer_arrows": ["→", "↗"], "best_arrow": "→", "target_words": ["lead to", "cause"], "example": "Some choices can lead to regret.", "translation": "選択は後悔につながることがある。", "why_prompt": "なぜ選択が後悔を生む？", "deep_prompt": "選ばないことも後悔？", "feedback": {"core": "choice と regret は因果として考えやすい。", "when_wrong": "↗ でも可だが、文としては lead to 型。"}}, {"id": "PH-004", "theme": "philosophy", "left": "truth", "right": "belief", "answer_arrows": ["⇔", "⚔"], "best_arrow": "⇔", "target_words": ["differ from", "compare"], "example": "Truth can differ from belief.", "translation": "真実は信念と異なることがある。", "why_prompt": "真実と信念は何が違う？", "deep_prompt": "信じることで真実になる？", "feedback": {"core": "truth と belief は比較して違いを見る対象。", "when_wrong": "＝ は危険。信じていることと真実は同じとは限らない。"}}, {"id": "PH-005", "theme": "philosophy", "left": "rules", "right": "creativity", "answer_arrows": ["⚔", "↘"], "best_arrow": "⚔", "target_words": ["limit", "conflict with"], "example": "Rules can conflict with creativity.", "translation": "ルールは創造性と衝突することがある。", "why_prompt": "なぜルールが創造性を縛る？", "deep_prompt": "ルールが創造性を助ける例は？", "feedback": {"core": "rules と creativity は対立にも補完にもなる。ここでは衝突を読む。", "when_wrong": "↘ だけだと一方的。⚔ は価値の緊張を表せる。"}}, {"id": "HIS-001", "theme": "history", "left": "war", "right": "economy", "answer_arrows": ["↘", "⚔"], "best_arrow": "↘", "target_words": ["damage", "weaken"], "example": "War can weaken the economy.", "translation": "戦争は経済を弱めることがある。", "why_prompt": "なぜ戦争で経済が悪化する？", "deep_prompt": "戦争特需は？", "feedback": {"core": "war は economy に悪影響を与えることが多いが、例外もある。", "when_wrong": "⚔ は広い。ここでは weaken の ↘。"}}, {"id": "HIS-002", "theme": "history", "left": "revolution", "right": "society", "answer_arrows": ["⇄", "→"], "best_arrow": "⇄", "target_words": ["transform", "change"], "example": "A revolution can transform society.", "translation": "革命は社会を変革することがある。", "why_prompt": "何が変わる？", "deep_prompt": "変わらないものは？", "feedback": {"core": "revolution は society を別の形に変える。", "when_wrong": "→ も可だが、transform の感覚なら ⇄/変換。"}}, {"id": "HIS-003", "theme": "history", "left": "trade", "right": "culture", "answer_arrows": ["↗", "→"], "best_arrow": "↗", "target_words": ["spread", "promote"], "example": "Trade can spread culture.", "translation": "交易は文化を広げることがある。", "why_prompt": "なぜ交易で文化が広がる？", "deep_prompt": "文化衝突は？", "feedback": {"core": "trade は culture の交流・拡散を促す。", "when_wrong": "→ だと強い。↗ で促進の柔らかさを出す。"}}, {"id": "HIS-004", "theme": "history", "left": "colonialism", "right": "local identity", "answer_arrows": ["↘", "⚔"], "best_arrow": "⚔", "target_words": ["threaten", "conflict with"], "example": "Colonialism can conflict with local identity.", "translation": "植民地主義は地域のアイデンティティと衝突することがある。", "why_prompt": "なぜ衝突する？", "deep_prompt": "混合文化は生まれる？", "feedback": {"core": "colonialism と local identity は権力と文化の衝突。", "when_wrong": "↘ も可だが、対立構造を見せるなら ⚔。"}}, {"id": "HIS-005", "theme": "history", "left": "printing", "right": "knowledge spread", "answer_arrows": ["↗", "→"], "best_arrow": "↗", "target_words": ["promote", "enable"], "example": "Printing promoted the spread of knowledge.", "translation": "印刷は知識の普及を促進した。", "why_prompt": "なぜ印刷で知識が広がる？", "deep_prompt": "情報過多の問題は？", "feedback": {"core": "printing は knowledge spread を可能にし促進した。", "when_wrong": "→ も歴史的には可。ただし promote の型なら ↗。"}}, {"id": "LANG-001", "theme": "language", "left": "context", "right": "meaning", "answer_arrows": ["↗", "→"], "best_arrow": "↗", "target_words": ["shape", "influence"], "example": "Context shapes meaning.", "translation": "文脈は意味を形作る。", "why_prompt": "なぜ文脈で意味が変わる？", "deep_prompt": "単語だけで意味は決まる？", "feedback": {"core": "context は meaning を決める材料。", "when_wrong": "→ は強い。文脈は意味を支配するが、単語自体も関係する。"}}, {"id": "LANG-002", "theme": "language", "left": "translation", "right": "nuance", "answer_arrows": ["↘", "⇄"], "best_arrow": "↘", "target_words": ["lose", "reduce"], "example": "Translation can reduce nuance.", "translation": "翻訳はニュアンスを減らすことがある。", "why_prompt": "なぜニュアンスが失われる？", "deep_prompt": "翻訳で増える価値は？", "feedback": {"core": "translation は nuance を完全には保持しにくい。", "when_wrong": "⇄ は置換としても見えるが、ここではニュアンス損失を問う。"}}, {"id": "LANG-003", "theme": "language", "left": "reading", "right": "vocabulary", "answer_arrows": ["↗", "↑"], "best_arrow": "↗", "target_words": ["improve", "increase"], "example": "Reading can improve vocabulary.", "translation": "読書は語彙を増やすことがある。", "why_prompt": "なぜ読書で語彙が増える？", "deep_prompt": "読んでも増えない場合は？", "feedback": {"core": "reading は vocabulary 増加を促す。", "when_wrong": "↑ は結果だけ。↗ は読書が語彙に働く関係。"}}, {"id": "LANG-004", "theme": "language", "left": "grammar", "right": "expression", "answer_arrows": ["↗"], "best_arrow": "↗", "target_words": ["support", "improve"], "example": "Grammar supports clear expression.", "translation": "文法は明確な表現を支える。", "why_prompt": "なぜ文法が表現を助ける？", "deep_prompt": "文法だけで表現できる？", "feedback": {"core": "grammar は expression の土台。", "when_wrong": "→ は強い。文法だけでは内容は生まれない。"}}, {"id": "LANG-005", "theme": "language", "left": "miscommunication", "right": "conflict", "answer_arrows": ["↗", "→"], "best_arrow": "↗", "target_words": ["lead to", "cause"], "example": "Miscommunication can lead to conflict.", "translation": "誤解は対立につながることがある。", "why_prompt": "なぜ誤解が対立になる？", "deep_prompt": "誤解しても対立しない場合は？", "feedback": {"core": "miscommunication は conflict のきっかけになり得る。", "when_wrong": "→ も可。ただし can lead to なので条件付きの ↗ も自然。"}}];
+const ARROWS = ["↑","↓","→","↗","↘","⇔","⚔","⇄","＝"];
+let classicIdx=0, arrowIdx=0, activeList=QUESTIONS.map((_,i)=>i).slice(0,10), arrowMode="daily", random=false;
+let answered=false,start=0,timer=null,lastAnswer=null;
+
+function $(id){return document.getElementById(id)}
+function openView(id){document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));$(id).classList.add('active');if(id==='classic') drawClassic(); if(id==='dash') updateDashboard(); updateGlobal();}
+function attempts(){return JSON.parse(localStorage.getItem("cles_attempts_dual")||"[]")}
+function setAttempts(a){localStorage.setItem("cles_attempts_dual",JSON.stringify(a))}
+function updateGlobal(){$("globalScore").textContent="Arrow履歴 "+attempts().length+"件"}
+
+function currentWord(q){return (q.target_words&&q.target_words[0]) || q.example.split(" ")[0]}
+function drawClassic(){const q=QUESTIONS[classicIdx];$("classicMeta").textContent=q.id+" / "+q.theme+" / "+(classicIdx+1)+" of "+QUESTIONS.length;$("classicWord").textContent=currentWord(q);$("classicAnswer").style.display="none";$("classicMsg").textContent=""}
+function classicShow(){const q=QUESTIONS[classicIdx];$("classicExample").textContent=q.example;$("classicTranslation").textContent=q.translation;$("classicArrow").textContent=" "+q.best_arrow+"  "+q.left+" ? "+q.right;$("classicAnswer").style.display="block"}
+function classicNext(){classicIdx=(classicIdx+1)%QUESTIONS.length;drawClassic()}
+function classicShuffle(){classicIdx=Math.floor(Math.random()*QUESTIONS.length);drawClassic()}
+function classicMark(known){const q=QUESTIONS[classicIdx];const logs=JSON.parse(localStorage.getItem("cles_v12_logs")||"[]");logs.push({id:q.id,word:currentWord(q),known:known,created_at:new Date().toISOString()});localStorage.setItem("cles_v12_logs",JSON.stringify(logs));$("classicMsg").textContent=known?"知ってるで保存しました":"知らないで保存しました";classicNext()}
+
+function setArrowMode(mode){arrowMode=mode;arrowIdx=0;const a=attempts();if(mode==="daily"){activeList=QUESTIONS.map((_,i)=>i).slice(0,10);$("modeLabel").textContent="現在：1日10問"}else if(mode==="all"){activeList=QUESTIONS.map((_,i)=>i);$("modeLabel").textContent="現在：全50問"}else{const missed=[...new Set(a.filter(x=>!x.is_correct).map(x=>x.question_id))];activeList=QUESTIONS.map((q,i)=>missed.includes(q.id)?i:-1).filter(i=>i>=0);if(!activeList.length)activeList=QUESTIONS.map((_,i)=>i).slice(0,10);$("modeLabel").textContent="現在：ミス復習 "+activeList.length+"問"}if(random) shuffle(activeList)}
+function shuffle(arr){for(let i=arr.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]]}}
+function toggleShuffle(){random=!random;if(random)shuffle(activeList);$("modeLabel").textContent += random?" / ランダム":" / 順番";}
+function startArrow(){$("arrowStart").style.display="none";$("arrowQuiz").style.display="block";drawArrow()}
+function drawArrow(){if(!activeList.length)setArrowMode("daily");answered=false;lastAnswer=null;const q=QUESTIONS[activeList[arrowIdx]];$("qid").textContent=q.id+" / "+(arrowIdx+1)+" of "+activeList.length;$("theme").textContent=q.theme;$("left").textContent=q.left;$("right").textContent=q.right;$("timer").textContent="3";$("arrowResult").style.display="none";$("memo").value="";$("msg").textContent="";const grid=$("arrowGrid");grid.innerHTML="";ARROWS.forEach(a=>{const b=document.createElement("button");b.className="arrowBtn";b.textContent=a;b.dataset.arrow=a;b.onclick=()=>chooseArrow(a,b);grid.appendChild(b)});start=performance.now();clearInterval(timer);let remain=3;timer=setInterval(()=>{if(answered)return;remain--; $("timer").textContent=remain>0?String(remain):"TIME";if(remain<=0)clearInterval(timer)},1000)}
+function chooseArrow(a,btn){if(answered)return;answered=true;clearInterval(timer);const q=QUESTIONS[activeList[arrowIdx]];const sec=(performance.now()-start)/1000;const ok=q.answer_arrows.includes(a), best=q.best_arrow===a;lastAnswer={question_id:q.id,theme:q.theme,left:q.left,right:q.right,selected_arrow:a,best_arrow:q.best_arrow,is_correct:ok,is_best:best,response_time_sec:Number(sec.toFixed(2)),created_at:new Date().toISOString()};const arr=attempts();arr.push(lastAnswer);setAttempts(arr);document.querySelectorAll(".arrowBtn").forEach(b=>{b.disabled=true;if(q.answer_arrows.includes(b.dataset.arrow))b.classList.add("correct")});btn.classList.add("selected");if(!ok)btn.classList.add("wrong");$("timer").textContent=sec.toFixed(1)+"s";$("judge").className="judge "+(best?"ok":ok?"close":"bad");$("judge").textContent=best?"Correct":ok?"Close / Acceptable":"Try again";$("your").textContent=a;$("best").textContent=q.best_arrow;$("example").textContent=q.example;$("translation").textContent=q.translation;$("coreFeedback").textContent=q.feedback.core;$("wrongFeedback").textContent=q.feedback.when_wrong;$("wrongBox").style.display=best?"none":"block";$("deep").textContent=q.deep_prompt;$("arrowResult").style.display="block";updateGlobal()}
+function arrowNext(){arrowIdx=(arrowIdx+1)%activeList.length;drawArrow()}
+function saveReason(){const memo=$("memo").value.trim();if(!memo){$("msg").textContent="メモが空です";return}const logs=JSON.parse(localStorage.getItem("cles_reason_logs_dual")||"[]");logs.push(Object.assign({memo:memo,saved_at:new Date().toISOString()},lastAnswer||{}));localStorage.setItem("cles_reason_logs_dual",JSON.stringify(logs));$("msg").textContent="思考ログを保存しました"}
+
+function calc(){const a=attempts();const total=a.length,correct=a.filter(x=>x.is_correct).length,instant=a.filter(x=>x.is_correct&&x.response_time_sec<=3).length;const avg=total?a.reduce((s,x)=>s+x.response_time_sec,0)/total:0;return{a,total,correct,instant,avg}}
+function updateDashboard(){const c=calc();$("mTotal").textContent=c.total;$("mCorrect").textContent=c.total?Math.round(c.correct/c.total*100)+"%":"0%";$("mInstant").textContent=c.total?Math.round(c.instant/c.total*100)+"%":"0%";$("mAvg").textContent=c.avg.toFixed(1)+"s";const by={};c.a.forEach(x=>{if(!by[x.best_arrow])by[x.best_arrow]={total:0,miss:0};by[x.best_arrow].total++;if(!x.is_correct)by[x.best_arrow].miss++});const rows=Object.entries(by).map(([arrow,v])=>({arrow,miss:v.miss,total:v.total})).sort((a,b)=>b.miss-a.miss);$("weakList").innerHTML=rows.length?rows.map(r=>`<span class="pill">${r.arrow} ミス ${r.miss}/${r.total}</span>`).join(" "):"まだ履歴がありません";$("histBody").innerHTML=c.a.slice().reverse().map(x=>`<tr><td>${new Date(x.created_at).toLocaleString()}</td><td>${x.question_id}</td><td>${x.left} ? ${x.right}</td><td>${x.selected_arrow}</td><td>${x.best_arrow}</td><td>${x.is_correct?"OK":"NG"}</td><td>${x.response_time_sec}</td></tr>`).join("")}
+function exportCsv(){const a=attempts();const h=["created_at","question_id","theme","left","right","selected_arrow","best_arrow","is_correct","is_best","response_time_sec"];const csv=[h.join(",")].concat(a.map(x=>h.map(k=>`"${String(x[k]??"").replaceAll('"','""')}"`).join(","))).join("\\n");const blob=new Blob([csv],{type:"text/csv;charset=utf-8"});const url=URL.createObjectURL(blob);const link=document.createElement("a");link.href=url;link.download="cles_dual_attempts.csv";link.click();URL.revokeObjectURL(url)}
+function clearHistory(){if(confirm("履歴をクリアしますか？")){localStorage.removeItem("cles_attempts_dual");updateDashboard();updateGlobal()}}
+
+const WORLD_MISSIONS = [
+{id:'W01',tag:'AI / EDUCATION',title:'AI教師',scene:'2032年。あなたの学校はAI担任を導入する。AIは24時間質問に答え、生徒ごとに説明方法を変えられる。',question:'良いAI教師に最も必要な条件はどれ？',choices:['A. 面白く、授業参加を高めること','B. 生徒の小さな変化に気づくこと','C. 全員に同じ教え方をして公平にすること','D. テストの点数を最短で上げること'],likely:1,frame:'「良い教師」は一種類なのか？ 生徒ごとに伝え方を変えることと、教師の人格を変えることは同じか？'},
+{id:'W02',tag:'LEARNING',title:'努力 vs 才能',scene:'同じ試験でAは92点、Bは55点。ただしBは3か月前28点で、毎日学習を続けている。',question:'「より大きな学習成果」を最も適切に表す判断は？',choices:['A. 92点のA','B. 伸び幅が大きいB','C. 現在点と伸び幅を両方見る','D. 宿題提出数だけを見る'],likely:2,frame:'そもそも achievement を何で測る？ 結果・進歩・過程・態度はどう重みづけする？'},
+{id:'W03',tag:'SCIENCE / DATA',title:'教室が暑い',scene:'ある学校で、教室温度が高い日に平均点が低いというデータが見つかった。',question:'このデータから最も妥当な結論は？',choices:['A. 暑さが成績低下の原因だ','B. 成績が低いと教室が暑くなる','C. 関連はあるが、因果はまだ断定できない','D. 温度は学習に全く関係ない'],likely:2,frame:'「原因を決める」前提そのものに情報不足はないか？ 何の追加データが必要？'},
+{id:'W04',tag:'SCHOOL / RULES',title:'スマホ禁止',scene:'授業中のスマホ利用で集中が落ちているという声が増え、学校は全面禁止を検討している。',question:'最も妥当な学校の対応は？',choices:['A. 全面禁止','B. 完全自由','C. 授業目的に応じて利用ルールを決める','D. 生徒ごとに教師がその場で判断する'],likely:2,frame:'禁止か自由かという二択が本当に適切？ スマホ自体ではなく「使い方」を設計できないか？'},
+{id:'W05',tag:'MARS / DESIGN',title:'火星の高校',scene:'火星に最初の高校を作る。酸素、水、通信、心理的ストレスが地球より厳しい。',question:'最初に設計すべき学校ルールは？',choices:['A. 制服','B. 安全と生命維持のルール','C. 宿題提出期限','D. 部活動の曜日'],likely:1,frame:'そもそも「地球の高校」を火星にコピーする必要がある？ 学校の目的から作り直せないか？'},
+{id:'W06',tag:'BIOETHICS',title:'遺伝子編集',scene:'遺伝性疾患を高確率で防げる遺伝子編集技術が実用化された。しかし身長や筋力の強化にも応用できる。',question:'最も慎重で妥当な方針は？',choices:['A. 全面禁止','B. 全面自由','C. 治療目的を中心に厳格な条件で認める','D. 親の希望だけで決める'],likely:2,frame:'治療と能力強化の境界は本当に引ける？ 誰が境界を決める？'},
+{id:'W07',tag:'ECONOMY',title:'全員に100万円',scene:'政府が全国民へ一律100万円を配る案を発表した。',question:'社会が豊かになるかを判断するために最も重要なのは？',choices:['A. 配った金額だけ','B. 受給者の喜びだけ','C. 物価・消費・所得分布など複数指標','D. SNSの賛否'],likely:2,frame:'「豊かさ＝お金」なのか？ 安心、時間、選択肢、格差など別の尺度は？'},
+{id:'W08',tag:'CLIMATE / EVIDENCE',title:'森林火災',scene:'森林火災が10年前より増えた。同時期に平均気温も上昇している。土地利用や降雨量のデータはまだない。',question:'現時点で最も妥当な判断は？',choices:['A. 気候変動が唯一の原因','B. 気温上昇は一因の可能性があるが追加証拠が必要','C. 気候変動は無関係','D. 原因分析は不可能なので調査不要'],likely:1,frame:'「判断しない」ことと「保留して調べる」ことは違う。何が分かれば判断を変える？'},
+{id:'W09',tag:'MEDIA / LANGUAGE',title:'同じニュース、違う見出し',scene:'同じ出来事を4社が異なる見出しで報じた。事実関係はほぼ同じだが、語彙の選び方が違う。',question:'最も中立的な記事を選ぶ基準として妥当なのは？',choices:['A. 感情語が少なく、根拠と事実を分けている','B. 一番短い見出し','C. 自分の意見に近い記事','D. 一番拡散された記事'],likely:0,frame:'完全な「中立」は存在する？ 中立性ではなく透明性や根拠の示し方を評価すべきでは？'},
+{id:'W10',tag:'SCHOOL DESIGN',title:'世界一楽しい高校',scene:'あなたは「世界一楽しい高校」を設計する責任者になった。学力、自由、仲間、挑戦、安心、進路のすべてを考える必要がある。',question:'最も重要な設計原則は？',choices:['A. 授業を全部ゲームにする','B. 宿題をなくす','C. 生徒が挑戦し、失敗し、考え直せる環境を作る','D. 行事を増やす'],likely:2,frame:'そもそも全員に共通する「楽しい」はある？ 楽しさと成長をどう両立させる？'}
+];
+let worldIdx=0, firstExamChoice=null, challengeScore=null, reviewTarget=null;
+function worldLogs(){return JSON.parse(localStorage.getItem('cles_world_challenge_logs')||'[]')}
+function setWorldLogs(x){localStorage.setItem('cles_world_challenge_logs',JSON.stringify(x))}
+function openChallenge(){openView('challenge');drawChallenge()}
+function drawChoiceSet(containerId,returnMode=false){const m=WORLD_MISSIONS[worldIdx],box=$(containerId);box.innerHTML='';m.choices.forEach((t,i)=>{const b=document.createElement('button');b.className='choiceBtn';b.textContent=t;b.onclick=()=>returnMode?returnExamPick(i,b):examPick(i,b);box.appendChild(b)})}
+function drawChallenge(){const m=WORLD_MISSIONS[worldIdx];$('cmTag').textContent=`MISSION ${worldIdx+1}/10 · ${m.tag}`;$('cmTitle').textContent=m.title;$('cmScene').textContent=m.scene;$('cmQuestion').textContent=m.question;drawChoiceSet('cmChoices');$('examHint').textContent='';$('challengePanel').classList.remove('active');['scoreBox','reviewBox','retryBox','returnBox'].forEach(id=>$(id).classList.add('hidden'));['fClaim','fWhy','fReason','fExample','fCounter','fPersuade','fSpark','fRetry'].forEach(id=>$(id).value='');firstExamChoice=null;challengeScore=null;reviewTarget=null}
+function examPick(i,b){firstExamChoice=i;document.querySelectorAll('#cmChoices .choiceBtn').forEach(x=>x.classList.remove('picked'));b.classList.add('picked');const m=WORLD_MISSIONS[worldIdx];$('examHint').textContent=i===m.likely?'MOST LIKELYとして妥当。ここで終えてもよいし、枠そのものを疑ってChallengeへ進んでもよい。':'選択を記録。正解発表より先に「なぜそう思ったか」を意識しよう。Challengeへ進むこともできる。'}
+function startBreak(){$('challengePanel').classList.add('active');const m=WORLD_MISSIONS[worldIdx];$('fWhy').placeholder='ヒント：'+m.frame;$('challengePanel').scrollIntoView({behavior:'smooth',block:'start'})}
+const fields=[['fClaim','CLAIM',8],['fWhy','WHY',14],['fReason','REASON / EVIDENCE',18],['fExample','EXAMPLE',12],['fCounter','COUNTER',12],['fPersuade','PERSUADE',18],['fSpark','SPARK',18]];
+function strength(text){const n=text.trim().length;if(n===0)return 0;if(n<12)return .35;if(n<30)return .65;if(n<70)return .85;return 1}
+function scoreChallenge(){let raw={};fields.forEach(([id,name,w])=>raw[name]=strength($(id).value));const think=Math.round(30*((raw['WHY']+raw['REASON / EVIDENCE']+raw['COUNTER'])/3));const build=Math.round(25*((raw['CLAIM']+raw['WHY']+raw['REASON / EVIDENCE']+raw['EXAMPLE']+raw['COUNTER']+raw['PERSUADE'])/6));const persuade=Math.round(25*((raw['EXAMPLE']+raw['PERSUADE']+raw['CLAIM'])/3));const spark=Math.round(20*(raw['SPARK']*.7+raw['PERSUADE']*.3));const total=think+build+persuade+spark;challengeScore={think,build,persuade,spark,total,raw};$('scoreBox').classList.remove('hidden');$('scoreBox').innerHTML=`<div class="scoreBar">${total}/100</div><div class="scoreMini"><span class="pill">THINK ${think}/30</span><span class="pill">BUILD ${build}/25</span><span class="pill">PERSUADE ${persuade}/25</span><span class="pill">SPARK ${spark}/20</span></div><div class="small" style="margin-top:8px">Prototypeでは文章量・構成入力から暫定採点。AI版では内容の質・論理・文法・表現を評価する。</div>`;const candidates=fields.map(([id,name,w])=>({id,name,v:raw[name],text:$(id).value})).sort((a,b)=>a.v-b.v);reviewTarget=candidates[0];$('reviewBox').classList.remove('hidden');$('retryBox').classList.remove('hidden');$('reviewBox').innerHTML=`<b>🎯 REVIEW — 今回直すのは1項目だけ</b><div style="margin-top:6px"><b>${reviewTarget.name}</b> を強くしよう。ほかは今は触らない。</div><div class="small" style="margin-top:6px">${reviewHint(reviewTarget.name)}</div>`;$('retryLabel').textContent=`${reviewTarget.name} だけ書き直す`;$('fRetry').value=reviewTarget.text;$('returnBox').classList.remove('hidden');drawChoiceSet('cmChoicesReturn',true);saveChallengeDraft(true)}
+function reviewHint(name){return {CLAIM:'結論を一文で明確に。',WHY:'「なぜ？」をもう一段掘る。', 'REASON / EVIDENCE':'事実・データ・論理の支えを加える。',EXAMPLE:'抽象論ではなく具体的な場面を1つ。',COUNTER:'反対意見の一番強い点を先に認める。',PERSUADE:'説明で終わらず、相手が選びたくなる一文に。',SPARK:'比喩・意外性・ウィット・熱量。無理に笑わせなくてよい。'}[name]||''}
+function applyOneReview(){if(!reviewTarget)return;$(reviewTarget.id).value=$('fRetry').value;$('reviewBox').innerHTML=`<b>✅ ${reviewTarget.name} を1回だけ改善しました。</b><div class="small">今日はここで止めてもOK。次のReviewでは別の1項目を扱います。</div>`;scoreChallenge()}
+function returnExamPick(i,b){document.querySelectorAll('#cmChoicesReturn .choiceBtn').forEach(x=>x.classList.remove('picked'));b.classList.add('picked');const m=WORLD_MISSIONS[worldIdx];$('returnMsg').textContent=i===m.likely?'MOST LIKELY answerを選べています。自由思考と試験思考を切り替えられました。':'Challengeの自分の答えとは別に、「出題者が最も想定する答え」をもう一度考えてみよう。'}
+function saveChallengeDraft(auto=false){const m=WORLD_MISSIONS[worldIdx];const log={created_at:new Date().toISOString(),mission_id:m.id,title:m.title,first_exam_choice:firstExamChoice,claim:$('fClaim').value,why:$('fWhy').value,reason:$('fReason').value,example:$('fExample').value,counter:$('fCounter').value,persuade:$('fPersuade').value,spark:$('fSpark').value,score:challengeScore};const logs=worldLogs();logs.push(log);setWorldLogs(logs);if(!auto)alert('Challenge下書きを保存しました')}
+function challengeNext(){worldIdx=(worldIdx+1)%WORLD_MISSIONS.length;drawChallenge()}
+function challengePrev(){worldIdx=(worldIdx-1+WORLD_MISSIONS.length)%WORLD_MISSIONS.length;drawChallenge()}
+function updateChallengeDash(){const logs=worldLogs();$('challengeLogBody').innerHTML=logs.length?logs.slice().reverse().map(x=>`<div class="feedback"><b>${x.mission_id} ${x.title}</b> ${x.score?`— ${x.score.total}/100`:''}<div>${(x.claim||'').replace(/</g,'&lt;')}</div><div class="small">${new Date(x.created_at).toLocaleString()}</div></div>`).join(''):'まだ記録がありません。'}
+
+setArrowMode("daily");updateGlobal();
+</script>
+
+<!-- CLES Challenge Mode v0.1 specification embedded 2026-09-04 -->
+<script id="cles-challenge-spec" type="application/json">
+{
+  "version":"challenge-v0.1",
+  "principles":["Normal exam remains four-choice A-D","Challenge is outside the four choices, never a fifth answer","Return to MOST LIKELY exam answer after challenge"],
+  "challengeEntry":"この4択では足りないと思う？ BREAK THE FRAME",
+  "answerCriteria":["CLAIM","WHY","REASON_EVIDENCE","EXAMPLE","COUNTER","PERSUADE","SPARK"],
+  "score":{"THINK":30,"BUILD":25,"PERSUADE":25,"SPARK":20},
+  "review":{"rule":"one_target_at_a_time","flow":["ANSWER","SCORE","REVIEW_ONE_TARGET","PRACTICE_ONCE","RESCORE","NEXT_TARGET_LATER"],"examples":["EXAMPLE","PERSUADE","STRUCTURE","VOCABULARY","WIT"]},
+  "challengeRule":"Choosing challenge gives no bonus by itself; the response must outperform the frame through reasoning.",
+  "examReturn":"NOW BACK TO THE EXAM: choose the MOST LIKELY answer from A-D."
+}
+</script>
+</body>
+</html>
